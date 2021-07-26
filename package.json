@@ -1,0 +1,63 @@
+{
+  "name": "quasar2-tiptap2",
+  "version": "0.0.1",
+  "description": "Basic WYSIWYG Editor using TipTap 2 with Quasar 2 / Vue 3 Configured for Typescript and Vue's Composition API",
+  "productName": "Quasar 2 - TipTap 2 Starter kit",
+  "author": {
+    "name": "Mike Foitzik",
+    "email": "mike@mifo.com",
+    "url": "https://www.mifo.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mfoitzik/quasar2-tiptap2.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts,.vue ./",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.0.0",
+    "@tiptap/extension-font-family": "^2.0.0-beta.13",
+    "@tiptap/extension-highlight": "^2.0.0-beta.14",
+    "@tiptap/extension-image": "^2.0.0-beta.14",
+    "@tiptap/extension-link": "^2.0.0-beta.18",
+    "@tiptap/extension-text-align": "^2.0.0-beta.20",
+    "@tiptap/extension-text-style": "^2.0.0-beta.16",
+    "@tiptap/extension-underline": "^2.0.0-beta.15",
+    "@tiptap/starter-kit": "^2.0.0-beta.82",
+    "@tiptap/vue-3": "^2.0.0-beta.45",
+    "core-js": "^3.6.5",
+    "quasar": "^2.0.0"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.13.14",
+    "@quasar/app": "^3.0.0",
+    "@types/node": "^10.17.15",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-vue": "^7.0.0"
+  },
+  "browserslist": [
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "engines": {
+    "node": ">= 12.22.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  },
+  "resolutions": {
+    "vue": "^3.1.4"
+  }
+}

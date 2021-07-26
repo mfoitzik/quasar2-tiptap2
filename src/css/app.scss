@@ -1,0 +1,51 @@
+// app global css in SCSS form
+.menu-button-active {
+    color: $teal-9;
+}
+
+.menu-button-tooltip {
+    background-color: $teal-9;
+    color: white;
+}
+
+.toolbar-border {
+    border: 1px solid lightgrey;
+}
+
+.tooltip-wrapper {
+    white-space: nowrap;
+}
+
+.font-family-select {
+    width:100px;
+    margin-left:4px;
+    border-radius:4px;
+    padding-left:3px;
+}
+
+.font-family-select:hover {
+    background-color: #dddddd80;
+}
+
+.selected-item-color {
+    color: maroon;
+}
+
+.ProseMirror {
+    margin: 16px;
+    border:1px solid lightgray;
+    width: calc(100vw - 50px);
+    height: calc(100vh - 82px);
+    overflow: auto;
+    -webkit-box-shadow: 5px 5px 6px -4px #000000; 
+    box-shadow: 5px 5px 6px -4px #000000;
+}
+
+.editor-wrapper {
+    height:calc(100vh - 2px);
+    box-sizing:border-box;
+}
+
+.editor-menu {
+    max-height:50px;
+}
