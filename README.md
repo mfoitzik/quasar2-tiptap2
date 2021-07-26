@@ -3,7 +3,7 @@
 Basic WYSIWYG Editor using TQuasar 2 / Vue 3 / TipTap 2 Configured for Typescript and Vue's Composition API
 
 ## What this project does
-This project basically implements the examples on the TipTap site at [https://www.tiptap.dev/examples/default] within a Quasar Framework project.
+This project basically implements the basic examples that are on the TipTap site at [https://www.tiptap.dev/examples/default] within a Quasar Framework project.
 
 I have added a few custom extensions to provide the capability of Font Color, Font Size and Font Background Color.
 
@@ -28,4 +28,25 @@ yarn install
 ```bash
 quasar dev
 ```
+## Please support the projects that make this project possible
+### Me
+I am building some commercial stuff so if you want to support me, just help spread the word about [SimplicityBlocks.com], [SimplicityBuilder.com], or just [follow me on twitter](https://twitter.com/MikeFoitzik) to keep up with me.
+
+The following are listed in alphabetical order as I think for this particular project they are all equally important.
+### ProseMirror
+ProseMirror is the "engine" under the hood of the TipTap project.
+
+Support ProseMirror at: [https://marijnhaverbeke.nl/fund/]
+### Quasar Framework
+Quasar Framework is an awesome framework built on top of Vue.js that provides UI components as well as many other features that simplify building a Vue.js project.
+
+Support the Quasar Framework project at: [https://github.com/sponsors/rstoenescu]
+### TipTap
+TipTap is the headless editor framework for web artisans. 
+
+Support TipTap at: [https://github.com/sponsors/ueberdosis]
+### Vue.js
+Vue is a progressive framework for building user interfaces.
+
+Support Vue at: [https://vuejs.org/support-vuejs/]
 
