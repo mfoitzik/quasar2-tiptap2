@@ -53,7 +53,7 @@ module.exports = configure(function (ctx) {
     // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
-      // publicPath: 'build/assets/Editor',
+      publicPath: '/quasar2tiptap2',
       // transpile: false,
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
@@ -141,8 +141,8 @@ module.exports = configure(function (ctx) {
       },
 
       manifest: {
-        name: 'Simplicity Editor Tiptap Quasar',
-        short_name: 'Simplicity Editor Tiptap Quasar',
+        name: '',
+        short_name: 'Quasar2 Tiptap2',
         description: 'Basic WYSIWYG Editor using TipTap with Quasar 2 / Vue 3 Configured for Typescript and Vue\'s Composition API',
         display: 'standalone',
         orientation: 'portrait',
@@ -208,7 +208,7 @@ module.exports = configure(function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'simplicity-editor-tiptap-quasar'
+        appId: 'quasar2-tiptap2'
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain

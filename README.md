@@ -3,9 +3,12 @@
 Basic WYSIWYG Editor using TQuasar 2 / Vue 3 / TipTap 2 Configured for Typescript and Vue's Composition API
 
 ## Demo
-You can view a demo at 
+You can view a demo at [https://www.simplicityblocks.com/quasar2tiptap2]
+
 ## What this project does
 This project basically implements the basic examples that are on the TipTap site at [https://www.tiptap.dev/examples/default] within a Quasar Framework project.
+
+The project uses Vue 3, the composition API and Typescript.
 
 I have added a few custom extensions to provide the capability of Font Color, Font Size and Font Background Color.
 

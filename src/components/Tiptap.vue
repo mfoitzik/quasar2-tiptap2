@@ -46,7 +46,6 @@ export default defineComponent({
         Paragraph,
         Text,
         Heading,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         TextAlign.configure({
           types: ['heading', 'paragraph'],
         }),
@@ -135,7 +134,6 @@ export default defineComponent({
         editor?.value?.commands.setContent(val)
     }
    
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     provide(InjectionKeys.editorKey, editor)
     provide(InjectionKeys.fontFamilyKey, fontFamily)
     provide(InjectionKeys.fontFamilyOptionsKey, fontFamilyOptions)
