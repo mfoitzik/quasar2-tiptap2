@@ -1,7 +1,9 @@
-# Simplicity Editor Tiptap Quasar (simplicity-editor-tiptap-quasar)
+# Quasar2-TipTap2
 
 Basic WYSIWYG Editor using TQuasar 2 / Vue 3 / TipTap 2 Configured for Typescript and Vue's Composition API
 
+## Demo
+You can view a demo at 
 ## What this project does
 This project basically implements the basic examples that are on the TipTap site at [https://www.tiptap.dev/examples/default] within a Quasar Framework project.
 
@@ -9,10 +11,8 @@ I have added a few custom extensions to provide the capability of Font Color, Fo
 
 This is just meant to be a starter.
 
-## IMPORTANT DISCLAIMERS
+## IMPORTANT DISCLAIMER
 To get this to work I had to add a resolutions property to the package.json file telling it to use vue 3.1.4. Because of this I believe you need to use yarn instead of npm to install the dependencies (I do not think that npm looks at the resolutions property). Without adding this the editor was not displaying.
-
-Also, there are several "eslint-disable-next-line" comments throughout that I had to put in to get rid of some eslint errors. I still need to figure out what is going on there.
 
 ## Clone the repository
 ```bash
@@ -30,7 +30,7 @@ quasar dev
 ```
 ## Please support the projects that make this project possible
 ### Me
-I am building some commercial stuff so if you want to support me, just help spread the word about [SimplicityBlocks.com], [SimplicityBuilder.com], or just [follow me on twitter](https://twitter.com/MikeFoitzik) to keep up with me.
+I am building some commercial stuff so if you want to support me, just help spread the word about [SimplicityBlocks.com], [SimplicityBuilder.com] or try these out (free - no credit card required) and give me some feedback on them, or just [follow me on twitter](https://twitter.com/MikeFoitzik) to keep up with me.
 
 The following are listed in alphabetical order as I think for this particular project they are all equally important.
 ### ProseMirror

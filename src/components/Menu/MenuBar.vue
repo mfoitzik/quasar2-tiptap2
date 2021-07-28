@@ -212,12 +212,7 @@
         <q-separator vertical inset />
         <q-btn flat padding="xs" icon="insert_photo" @click="addImage">
             <q-tooltip class="menu-button-tooltip">
-            <div>Bulleted List</div>
-            <div>
-                <div><strong>Shortcuts</strong></div>
-                <div>Windows/Linus: <strong>Control Shift 8</strong></div>
-                <div>MacOS: <strong>Cmd Shift 8</strong></div>
-            </div>
+            <div>Insert Image</div>
             </q-tooltip>
         </q-btn>
         <q-btn flat padding="xs" icon="link" @click="setLink" :class="{ 'menu-button-active': editor.isActive('link') }">
@@ -296,39 +291,37 @@
     </q-toolbar>
 </template>
 
-<script>
-import { defineComponent, inject, ref } from 'vue';
-
+<script lang="ts">
+import { Editor } from '@tiptap/vue-3';
+import { defineComponent, inject, Ref } from 'vue';
+import * as InjectionKeys from '../Types/injection-keys'
+import SelectItem from '../Types/select-item'
 export default defineComponent({
   components: {
   },
 
   setup() {
-    const editor = inject('mainEditor')
+    const editor = inject(InjectionKeys.editorKey) as Ref<Editor>
     
-    const monofont = 'Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace'
-    const fontFamily = inject('fontFamily')
-    const fontFamilyOptions = inject('fontFamilyOptions')
-    const fontSize = inject('fontSize')
-    const fontSizeOptions = inject('fontSizeOptions')
-    const blockType = inject('blockType')
-    const blockTypeOptions = inject('blockTypeOptions')
-    const fontColor = inject('fontColor')
-    const fontHighlight = inject('fontHighlight')
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-assignment
+    const fontFamily = inject(InjectionKeys.fontFamilyKey) as Ref<SelectItem>
+    const fontFamilyOptions = inject(InjectionKeys.fontFamilyOptionsKey) as Ref<SelectItem[]>
+    const fontSize = inject(InjectionKeys.fontSizeKey) as Ref<SelectItem>
+    const fontSizeOptions = inject(InjectionKeys.fontSizeOptionsKey) as Ref<SelectItem[]>
+    const blockType = inject(InjectionKeys.blockTypeKey) as Ref<SelectItem>
+    const blockTypeOptions = inject(InjectionKeys.blockTypeOptionsKey) as Ref<SelectItem[]>
+    const fontColor = inject('fontColor') as Ref<string>
+    const fontHighlight = inject('fontHighlight') as Ref<string>
     fontFamily.value = fontFamilyOptions.value[0]
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-assignment
     fontSize.value = fontSizeOptions.value[0]
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-assignment
     blockType.value = blockTypeOptions.value[0]
     function setLink() {
         const url = window.prompt('URL')
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-        editor.value?.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+        if (url) {
+            editor.value?.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+        }
     }
 
     function checkMark(inMark) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         if (editor.value.getAttributes(inMark).fontSize) {
             return true
         } else {
@@ -336,118 +329,91 @@ export default defineComponent({
         }
     }
 
-    function changeFontFamily(value) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-        this.editor.chain().focus().setFontFamily(value).run()
+    const changeFontFamily = (value) => {
+        editor.value.chain().focus().setFontFamily(value).run()
     }
 
-    function changeFontSize(value) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-        this.editor.chain().focus().setFontSize(value).run()
+    const changeFontSize = (value) => {
+        editor.value.chain().focus().setFontSize(value).run()
     }
-    function changeBlockType(value) {
+    const changeBlockType = (value) => {
         switch(value) {
             case 'paragraph':
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                this.editor.chain().focus().setParagraph().run()
+                editor.value.chain().focus().setParagraph().run()
                 break
             case 'h1':
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                this.editor.chain().focus().toggleHeading({ level: 1 }).run()
+                editor.value.chain().focus().toggleHeading({ level: 1 }).run()
                 break
             case 'h2':
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                this.editor.chain().focus().toggleHeading({ level: 2 }).run()
+                editor.value.chain().focus().toggleHeading({ level: 2 }).run()
                 break
             case 'h3':
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                this.editor.chain().focus().toggleHeading({ level: 3 }).run()
+                editor.value.chain().focus().toggleHeading({ level: 3 }).run()
                 break
             case 'h4':
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                this.editor.chain().focus().toggleHeading({ level: 4 }).run()
+                editor.value.chain().focus().toggleHeading({ level: 4 }).run()
                 break
             case 'h5':
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                this.editor.chain().focus().toggleHeading({ level: 5 }).run()
+                editor.value.chain().focus().toggleHeading({ level: 5 }).run()
                 break
             case 'h6':
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                this.editor.chain().focus().toggleHeading({ level: 6 }).run()
+                editor.value.chain().focus().toggleHeading({ level: 6 }).run()
                 break                
             default:
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                this.editor.chain().focus().setParagraph().run()
+                editor.value.chain().focus().setParagraph().run()
         } 
     }
 
-    function addImage() {
+    const addImage = () => {
       const url = window.prompt('URL')
       if (url) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         editor.value.chain().focus().setImage({ src: url }).run()
       }
     }
 
-    function changeTextColor() {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    const changeTextColor = () => {
         editor.value.chain().focus().setFontColor(fontColor.value).run()
     }
 
-    function changeHighlightColor() {
-        console.log(fontHighlight.value)
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    const changeHighlightColor = () => {
         editor.value.chain().focus().setFontBackgroundColor(fontHighlight.value).run()
     }
 
-    function toggleTextAlignment(value) {
+    const toggleTextAlignment = (value) => {
         if (value === 'left') {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-            if (this.editor.isActive({ textAlign: 'left' })) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                this.editor.chain().focus().unsetTextAlign().run()
+            if (editor.value.isActive({ textAlign: 'left' })) {
+                editor.value.chain().focus().unsetTextAlign().run()
             } else {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                this.editor.chain().focus().setTextAlign('left').run()
+                editor.value.chain().focus().setTextAlign('left').run()
             }
         }
 
         if (value === 'center') {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-            if (this.editor.isActive({ textAlign: 'center' })) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                this.editor.chain().focus().unsetTextAlign().run()
+            if (editor.value.isActive({ textAlign: 'center' })) {
+                editor.value.chain().focus().unsetTextAlign().run()
             } else {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                this.editor.chain().focus().setTextAlign('center').run()
+                editor.value.chain().focus().setTextAlign('center').run()
             }
         }
 
         if (value === 'right') {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-            if (this.editor.isActive({ textAlign: 'right' })) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                this.editor.chain().focus().unsetTextAlign().run()
+            if (editor.value.isActive({ textAlign: 'right' })) {
+                editor.value.chain().focus().unsetTextAlign().run()
             } else {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                this.editor.chain().focus().setTextAlign('right').run()
+                editor.value.chain().focus().setTextAlign('right').run()
             }
         }
 
         if (value === 'justify') {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-            if (this.editor.isActive({ textAlign: 'justify' })) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                this.editor.chain().focus().unsetTextAlign().run()
+            if (editor.value.isActive({ textAlign: 'justify' })) {
+                editor.value.chain().focus().unsetTextAlign().run()
             } else {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                this.editor.chain().focus().setTextAlign('justify').run()
+                editor.value.chain().focus().setTextAlign('justify').run()
             }
         }
     }
     return { 
         editor, 
-        monofont, 
         setLink, 
         checkMark, 
         addImage, 
