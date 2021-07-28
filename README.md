@@ -33,7 +33,7 @@ quasar dev
 ```
 ## Please support the projects that make this project possible
 ### Me
-I am building some commercial stuff so if you want to support me, just help spread the word about [SimplicityBlocks.com], [SimplicityBuilder.com] or try these out (free - no credit card required) and give me some feedback on them, or just [follow me on twitter](https://twitter.com/MikeFoitzik) to keep up with me.
+I am building some commercial stuff so if you want to support me, just help spread the word about [https://www.SimplicityBlocks.com], [https://www.SimplicityBuilder.com] or try these out (free - no credit card required) and give me some feedback on them, or just [follow me on twitter](https://twitter.com/MikeFoitzik) to keep up with me.
 
 The following are listed in alphabetical order as I think for this particular project they are all equally important.
 ### ProseMirror
