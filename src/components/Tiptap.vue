@@ -36,7 +36,6 @@ export default defineComponent({
   components: {
     EditorContent, MenuBar
   },
-
   setup() {
     const editor = useEditor({
       content: initialContent,
@@ -127,8 +126,8 @@ export default defineComponent({
     const blockTypeOptions = ref<SelectItem[]>(blockTypes)
     const fontColor = ref('#000000FF')
     const fontHighlight = ref('00FFFF')
-    const getContent = () => {
-        return editor?.value?.getHTML()
+    const getContent = ():string => {
+        return editor?.value?.getHTML() || ''
     }
     const setContent = (val: string) => {
         editor?.value?.commands.setContent(val)
@@ -144,6 +143,6 @@ export default defineComponent({
     provide('fontColor', fontColor)
     provide('fontHighlight', fontHighlight)
     return { editor, getContent, setContent, fontFamilyOptions, fontFamily, fontSize, fontSizeOptions, blockType, blockTypeOptions, fontColor, fontHighlight }
-  },
+  }
 })
 </script>

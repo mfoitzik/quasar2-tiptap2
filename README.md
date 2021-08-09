@@ -1,6 +1,6 @@
 # Quasar2-TipTap2
 
-Basic WYSIWYG Editor using TQuasar 2 / Vue 3 / TipTap 2 Configured for Typescript and Vue's Composition API
+Basic WYSIWYG Editor using Quasar 2 / Vue 3 / TipTap 2 Configured for Typescript and Vue's Composition API
 
 ## Demo
 You can view a demo at [https://www.simplicityblocks.com/quasar2tiptap2]
