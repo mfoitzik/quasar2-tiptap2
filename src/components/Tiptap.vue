@@ -32,6 +32,7 @@ import SelectItem from './Types/select-item'
 import fontFamilies from './SelectItems/font-family'
 import fontSizes from './SelectItems/font-size'
 import * as InjectionKeys from './Types/injection-keys'
+import VueComponent from './Interactive/Extension'
 export default defineComponent({
   components: {
     EditorContent, MenuBar
@@ -58,7 +59,7 @@ export default defineComponent({
         Image,
         Dropcursor,
         Underline,
-        
+        VueComponent,
       ],
       autofocus: true,
       onSelectionUpdate({ editor }) {

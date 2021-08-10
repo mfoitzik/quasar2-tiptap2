@@ -1,4 +1,13 @@
 const initialContent  = `<h3>Quasar2-TipTap2</h3>
+<p>
+          This is still the text editor you’re used to, but enriched with node views.
+        </p>
+        <vue-component>
+          <p>This is editable.</p>
+        </vue-component>
+        <p>
+          Did you see that? That’s a Vue component. We are really living in the future.
+        </p>
 <p>Basic WYSIWYG Editor using TQuasar 2 / Vue 3 / TipTap 2 Configured for Typescript and Vue's Composition API</p>
 <h4>What this project does</h4>
 <p>This project basically implements the basic examples that are on the TipTap site at [<a href="https://www.tiptap.dev/examples/default">https://www.tiptap.dev/examples/default</a>] within a Quasar Framework project.</p>
