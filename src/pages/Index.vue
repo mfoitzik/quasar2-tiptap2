@@ -1,5 +1,6 @@
 <template>
   <q-page class="">
+    <button type="button" @click="consolehtml">TEST</button>
     <tip-tap ref="maineditor" />
   </q-page>
 </template>
@@ -11,10 +12,15 @@ import { defineComponent, onMounted, ref } from 'vue';
 export default defineComponent({
   name: 'PageIndex',
   components: { tipTap },
+  
   setup() {
     const maineditor =  ref<typeof tipTap>()
+    const consolehtml = () => {
+      console.log(maineditor.value?.getContent())
+    }
     onMounted(() => {
         console.log('mounted!')
+        console.log(maineditor.value?.getContent())
         window.addEventListener('message', (event) => {
            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (event.data.command === 'set') {
@@ -28,7 +34,7 @@ export default defineComponent({
           }
         }, false);
       })
-      return { maineditor }
+      return { maineditor, consolehtml }
     }
 
 });

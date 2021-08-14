@@ -3,22 +3,37 @@ import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import Component from './Component.vue'
 
 export default Node.create({
-  name: 'vueComponent',
+  name: 'image',
 
   group: 'block',
 
   content: 'inline*',
 
+  addAttributes() {
+    return {
+      mike: {
+        default: 'X',
+      },
+      src: {
+        default: null
+      },
+      style: {
+        default: null
+      }
+    }
+  },
+
   parseHTML() {
     return [
       {
-        tag: 'vue-component',
+        tag: 'img',
+
       },
     ]
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['vue-component', mergeAttributes(HTMLAttributes), 0]
+    return ['div', mergeAttributes(HTMLAttributes), 0]
   },
 
   addNodeView() {
