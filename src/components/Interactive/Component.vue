@@ -16,7 +16,11 @@
           <q-card-section>
           <div class="row">
             <div class="col-12">
-              <q-input v-model="imageSrc" label="src" stack-label dense class="q-mx-sm" />
+              <q-input v-model="imageSrc" label="src" stack-label dense class="q-mx-sm">
+                <template v-slot:append>
+                  <q-icon name="more_horiz" color="black" size="xs" @click="imageSelector = true" style="align-self: flex-end;cursor:pointer;" />
+                </template>
+              </q-input>
             </div>
           </div>
           <div class="row">
@@ -214,6 +218,26 @@
 
       </q-card>
     </q-dialog>
+    <q-dialog v-model="imageSelector">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Terms of Agreement</div>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-section style="max-height: 50vh" class="scroll">
+          <p v-for="n in 15" :key="n">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.</p>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions align="right">
+          <q-btn flat label="Decline" color="primary" v-close-popup />
+          <q-btn flat label="Accept" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </node-view-wrapper>
 </template>
 
@@ -280,6 +304,7 @@ export default defineComponent({
     const slideVol = ref(39)
     const slideAlarm = ref(56)
     const slideVibration = ref(63)
+    const imageSelector = ref(false)
     let startX:number, startY:number, startWidth:number, startHeight:number, heightRatio:number, isShift = false
     
     const tbtn = () => {
@@ -492,7 +517,8 @@ export default defineComponent({
       imageShadowSpreadUOM,
       imageShadowSpreadNumber,
       imageShadowSpreadChange,
-      setBorderStyle
+      setBorderStyle,
+      imageSelector
       }
   },
   methods: {

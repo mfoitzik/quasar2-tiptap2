@@ -288,21 +288,39 @@
             </div>
             </q-tooltip>
         </q-btn>
+        <q-btn flat padding="xs" icon="format_clear" @click="imageSelector = true">
+        </q-btn>
     </q-toolbar>
+    <image-dialog :show="imageSelector" @newBorder="testEmit" :images="imageSelection" />
 </template>
 
 <script lang="ts">
 import { Editor } from '@tiptap/vue-3';
-import { defineComponent, inject, Ref } from 'vue';
+import { defineComponent, inject, Ref, ref } from 'vue';
 import * as InjectionKeys from '../Types/injection-keys'
 import SelectItem from '../Types/select-item'
+import imageDialog from '../ImageDialog/ImageDialog.vue'
 export default defineComponent({
   components: {
+      imageDialog
   },
 
   setup() {
+    const imageSelection = ref([
+                                {'url':'https://www.mifo.com/testimages/image1.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image1_tn.jpg'},
+                                {'url':'https://www.mifo.com/testimages/image2.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image2_tn.jpg'},
+                                {'url':'https://www.mifo.com/testimages/image3.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image3_tn.jpg'},
+                                {'url':'https://www.mifo.com/testimages/image4.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image4_tn.jpg'},
+                                {'url':'https://www.mifo.com/testimages/image5.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image5_tn.jpg'},
+                                {'url':'https://www.mifo.com/testimages/image6.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image6_tn.jpg'},
+                                {'url':'https://www.mifo.com/testimages/image7.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image7_tn.jpg'},
+                                {'url':'https://www.mifo.com/testimages/image8.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image8_tn.jpg'},
+                                {'url':'https://www.mifo.com/testimages/image9.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image9_tn.jpg'},
+                                {'url':'https://www.mifo.com/testimages/image10.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image10_tn.jpg'},
+                                {'url':'https://www.mifo.com/testimages/image11.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image11_tn.jpg'},
+                                {'url':'https://www.mifo.com/testimages/image12.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image12_tn.jpg'},
+                                ])
     const editor = inject(InjectionKeys.editorKey) as Ref<Editor>
-    
     const fontFamily = inject(InjectionKeys.fontFamilyKey) as Ref<SelectItem>
     const fontFamilyOptions = inject(InjectionKeys.fontFamilyOptionsKey) as Ref<SelectItem[]>
     const fontSize = inject(InjectionKeys.fontSizeKey) as Ref<SelectItem>
@@ -311,6 +329,7 @@ export default defineComponent({
     const blockTypeOptions = inject(InjectionKeys.blockTypeOptionsKey) as Ref<SelectItem[]>
     const fontColor = inject('fontColor') as Ref<string>
     const fontHighlight = inject('fontHighlight') as Ref<string>
+    const imageSelector = ref(false)
     fontFamily.value = fontFamilyOptions.value[0]
     fontSize.value = fontSizeOptions.value[0]
     blockType.value = blockTypeOptions.value[0]
@@ -328,7 +347,10 @@ export default defineComponent({
             return false
         }
     }
-
+    const testEmit = (e) => {
+        console.log('EVENT EMITTED: ' + e)
+        console.log(e)
+    }
     const changeFontFamily = (value) => {
         editor.value.chain().focus().setFontFamily(value).run()
     }
@@ -365,10 +387,12 @@ export default defineComponent({
     }
 
     const addImage = () => {
-      const url = window.prompt('URL')
-      if (url) {
-        editor.value.chain().focus().setImage({ src: url }).run()
-      }
+    imageSelector.value = true
+    // iDialog.showSettings()
+    //   const url = window.prompt('URL')
+    //   if (url) {
+    //     editor.value.chain().focus().setImage({ src: url }).run()
+    //   }
     }
 
     const changeTextColor = () => {
@@ -430,7 +454,10 @@ export default defineComponent({
         fontColor,
         changeTextColor,
         changeHighlightColor,
-        fontHighlight
+        fontHighlight,
+        imageSelector,
+        testEmit,
+        imageSelection
     }
   },
 })
