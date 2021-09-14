@@ -1,4 +1,4 @@
-import { Node, mergeAttributes } from '@tiptap/core'
+import { Node } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import Component from './Component.vue'
 
@@ -11,13 +11,10 @@ export default Node.create({
 
   addAttributes() {
     return {
-      mike: {
-        default: 'X',
-      },
       src: {
         default: null
       },
-      style: {
+      alt: {
         default: null
       }
     }
@@ -33,7 +30,9 @@ export default Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['div', mergeAttributes(HTMLAttributes), 0]
+    console.log('I AM INSIDE EXTENSION')
+    console.log(HTMLAttributes)
+    return ['img', HTMLAttributes, 0]
   },
 
   addNodeView() {

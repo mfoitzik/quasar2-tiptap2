@@ -3,7 +3,7 @@ const initialContent  = `
 <p>
           This is still the text editor you’re used to, but enriched with node views.
         </p>
-        <img>
+
           <p>This is editable.</p>
         </img>
         <p>

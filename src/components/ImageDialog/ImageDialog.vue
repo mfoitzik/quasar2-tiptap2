@@ -371,6 +371,14 @@
                 />
               </div>
             </div>
+            <div class="row">
+              <q-separator />
+
+              <q-card-actions align="right">
+                <q-btn flat label="Cancel" color="primary" v-close-popup />
+                <q-btn flat label="OK" color="primary" @click="insertImage" />
+              </q-card-actions>
+            </div>
           </q-item-section>
         </q-item>
       </q-card>
@@ -401,13 +409,16 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, inject, ref, Ref } from 'vue'
+import { Editor } from '@tiptap/vue-3'
+import * as InjectionKeys from '../Types/injection-keys'
 import ImageItem from '../Types/image-item'
 export default defineComponent({
   components: {
 
   },
   setup(props, {emit}) {
+    const editor = inject(InjectionKeys.editorKey) as Ref<Editor>
     const iSettings = ref<HTMLDivElement>()
     const sliders = ref(false)
     // const imageArray = ref<Array<ImageItem>>([])
@@ -511,6 +522,13 @@ export default defineComponent({
       imageSelector.value = false
     }
 
+    const insertImage = () => {
+      if (selectedImage.value !== '') {
+        editor.value.chain().focus().setImage({ src: selectedImage.value, alt: 'this is the alt text', title: 'my title', style: 'border:20px solid green;' }).run()
+      }
+      sliders.value = false
+    }
+
     return { imageSrc, iSettings, iStop, showSettings,
       sliders,
 
@@ -559,7 +577,8 @@ export default defineComponent({
       imageArray,
       imageSelect,
       selectedImage,
-      selectImage
+      selectImage,
+      insertImage
       }
   },
     props: {

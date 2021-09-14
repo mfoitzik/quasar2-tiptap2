@@ -38,6 +38,17 @@ export default defineComponent({
     EditorContent, MenuBar
   },
   setup() {
+    const CustomImage = Image.extend({
+      addAttributes() {
+    // Return an object with attribute configuration
+      return {
+        ...this.parent?.(),
+        style: {
+          default: 'border: 3px solid red;'
+        }
+      }
+    }
+    })
     const editor = useEditor({
       content: initialContent,
       extensions: [
@@ -56,7 +67,7 @@ export default defineComponent({
         FontSize,
         FontColor,
         FontBackgroundColor,
-        Image,
+        CustomImage,
         Dropcursor,
         Underline,
         VueComponent,

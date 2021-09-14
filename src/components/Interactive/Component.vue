@@ -4,8 +4,8 @@
     <node-view-content class="content" />
       <div class="iSettings" ref="iSettings" @mousedown = "iStop" @click="showSettings"><q-icon name="settings" class="iSettingsIcon" /></div>
       <div class="iHandle" ref="iHandle" @mousedown="beginResize"></div>
-      <div class="iSpan" ref="iWrapper"><img @mousedown = "iStop" @click="iClick" :src="imageSrc" :style="iStyle" ref="iMain" /></div>
-      <button type="button" @click="tbtnx">test</button>
+      <div class="iSpan" ref="iWrapper"><img @mousedown = "iStop" @click="iClick" :src="imageSrc" :style="iStyle" :alt="iAlt" ref="iMain" /></div>
+      <button type="button" @click="tbtn">test</button>
       <q-dialog v-model="sliders" style="width: 1200px">
       <q-card style="width: 1200px" class="q-px-sm q-pb-md">
         <q-card-section class="row items-center q-pb-none">
@@ -253,6 +253,7 @@ export default defineComponent({
   },
   setup(props) {
     const iStyle = ref('')
+    const iAlt = ref('')
     //const fontFamily = ref<SelectItem>({} as SelectItem)
     const iMain = ref<HTMLImageElement>()
     const iHandle =ref<HTMLDivElement>()
@@ -309,6 +310,7 @@ export default defineComponent({
     
     const tbtn = () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      console.log('TEST TEST 312')
       console.log(this.node.attrs)
     }
     const updateStyle = () => {
@@ -441,15 +443,23 @@ export default defineComponent({
     }
     onMounted(() => {
       console.log('Component is mounted!')
-      console.log(props.node.attrs)
+      console.log(props?.node?.attrs)
+      console.log('AFTER Component is mounted!')
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      imageSrc.value = props.node.attrs.src
+      imageSrc.value = props?.node?.attrs.src
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      iAlt.value = props?.node?.attrs.alt
+      
+      console.log('I AM GOING TO SET STYLE')
+      console.log(props?.node?.attrs.style)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      iStyle.value = props?.node?.attrs.style
       // props.updateAttributes({
       //   src: 
       // })
       //const tBound = iMain.value.getBoundingClientRect()
       console.log('LINE 39')
-      console.log(iMain.value.src)
+      console.log(iMain?.value?.src)
       document.documentElement.addEventListener('mousedown', function(event){
         iHandle.value?.classList.remove('iHandleShow')
         iWrapper.value?.classList.remove('iSpanBorder')
@@ -518,7 +528,8 @@ export default defineComponent({
       imageShadowSpreadNumber,
       imageShadowSpreadChange,
       setBorderStyle,
-      imageSelector
+      imageSelector,
+      iAlt
       }
   },
   methods: {
