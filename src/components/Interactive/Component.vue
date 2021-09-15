@@ -311,7 +311,7 @@ export default defineComponent({
     const tbtn = () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       console.log('TEST TEST 312')
-      console.log(this.node.attrs)
+      // console.log(this.node.attrs)
     }
     const updateStyle = () => {
       console.log('border:' + imageBorderWidth.value + ' ' + imageBorderStyle.value + ' ' + imageBorderColor.value)
@@ -393,12 +393,15 @@ export default defineComponent({
         }
        
         const tBound = iMain.value.getBoundingClientRect()
-        const hBound = iHandle.value.getBoundingClientRect()
-        iHandle.value.style.left = (tBound.right - (hBound.width / 2)).toString() + 'px'
-        iHandle.value.style.top = (tBound.bottom - (hBound.height / 2)).toString() + 'px'
-        const sBound = iSettings.value.getBoundingClientRect()
-        iSettings.value.style.left = (tBound.right - sBound.width).toString() + 'px'
-        iSettings.value.style.top = (tBound.top).toString() + 'px'
+        if (iHandle.value && iSettings.value) {
+          const hBound = iHandle.value.getBoundingClientRect()
+          iHandle.value.style.left = (tBound.right - (hBound.width / 2)).toString() + 'px'
+          iHandle.value.style.top = (tBound.bottom - (hBound.height / 2)).toString() + 'px'
+          const sBound = iSettings.value.getBoundingClientRect()
+          iSettings.value.style.left = (tBound.right - sBound.width).toString() + 'px'
+          iSettings.value.style.top = (tBound.top).toString() + 'px'
+        }
+        
       }
       
     }
@@ -414,24 +417,26 @@ export default defineComponent({
       iHandle.value?.classList.add('iHandleShow')
       iWrapper.value?.classList.add('iSpanBorder')
       iSettings.value?.classList.add('iSettingsShow')
-      const tBound = iMain.value.getBoundingClientRect()
+      if (iHandle.value && iSettings.value && iMain.value) {
+        const tBound = iMain.value.getBoundingClientRect()
+        // console.log(tBound.bottom)
+        // console.log(tBound.right)
+        // console.log(iHandle.value.style) -- border:4px solid red;
+        const hBound = iHandle.value.getBoundingClientRect()
+        const sBound = iSettings.value.getBoundingClientRect()
+        iHandle.value.style.left = (tBound.right - (hBound.width / 2)).toString() + 'px'
+        iHandle.value.style.top = (tBound.bottom - (hBound.height / 2)).toString() + 'px'
+        iSettings.value.style.left = (tBound.right - sBound.width).toString() + 'px'
+        iSettings.value.style.top = (tBound.top).toString() + 'px'
+        // console.log(tBound.width)
+      }
       
-      // console.log(tBound.bottom)
-      // console.log(tBound.right)
-      // console.log(iHandle.value.style) -- border:4px solid red;
-      const hBound = iHandle.value.getBoundingClientRect()
-      const sBound = iSettings.value.getBoundingClientRect()
-      iHandle.value.style.left = (tBound.right - (hBound.width / 2)).toString() + 'px'
-      iHandle.value.style.top = (tBound.bottom - (hBound.height / 2)).toString() + 'px'
-      iSettings.value.style.left = (tBound.right - sBound.width).toString() + 'px'
-      iSettings.value.style.top = (tBound.top).toString() + 'px'
-      // console.log(tBound.width)
     }
 
     const iStop = (e:MouseEvent) => {
       e.stopPropagation()
     }
-    const showSettings = (e:MouseEvent) => {
+    const showSettings = () => {
       // console.log('show settings')
       sliders.value = true
 
@@ -468,8 +473,8 @@ export default defineComponent({
         }, false)
       const getEditor = window.document.getElementsByClassName('ProseMirror')[0]
       if(getEditor){
-        getEditor.addEventListener('scroll', function(event){
-          if (iMain.value){
+        getEditor.addEventListener('scroll', function(){
+          if (iMain.value && iHandle.value && iSettings.value){
             const tBound = iMain.value.getBoundingClientRect()
             const hBound = iHandle.value.getBoundingClientRect()
             iHandle.value.style.left = (tBound.right - (hBound.width / 2)).toString() + 'px'
@@ -535,7 +540,10 @@ export default defineComponent({
   methods: {
     
     tbtny() {
-      console.log(this.node.attrs.mike)
+      if (this.node) {
+        console.log(this.node.attrs.mike)
+      }
+      
     }
   },
   props: nodeViewProps,

@@ -21,7 +21,7 @@ import Link from '@tiptap/extension-link'
 import FontSize from './CustomExtensions/font-size'
 import FontColor from './CustomExtensions/font-color'
 import FontBackgroundColor from './CustomExtensions/font-background-color'
-import Image from '@tiptap/extension-image'
+import Image from './CustomExtensions/image'
 import Dropcursor from '@tiptap/extension-dropcursor'
 import Underline from '@tiptap/extension-underline'
 import MenuBar from './Menu/MenuBar.vue'
@@ -38,17 +38,17 @@ export default defineComponent({
     EditorContent, MenuBar
   },
   setup() {
-    const CustomImage = Image.extend({
-      addAttributes() {
-    // Return an object with attribute configuration
-      return {
-        ...this.parent?.(),
-        style: {
-          default: 'border: 3px solid red;'
-        }
-      }
-    }
-    })
+    // const CustomImage = Image.extend({
+    //   addAttributes() {
+    // // Return an object with attribute configuration
+    //   return {
+    //     ...this.parent?.(),
+    //     style: {
+    //       default: ''
+    //     }
+    //   }
+    // }
+    // })
     const editor = useEditor({
       content: initialContent,
       extensions: [
@@ -67,7 +67,7 @@ export default defineComponent({
         FontSize,
         FontColor,
         FontBackgroundColor,
-        CustomImage,
+        Image,
         Dropcursor,
         Underline,
         VueComponent,
@@ -155,6 +155,11 @@ export default defineComponent({
     provide('fontColor', fontColor)
     provide('fontHighlight', fontHighlight)
     return { editor, getContent, setContent, fontFamilyOptions, fontFamily, fontSize, fontSizeOptions, blockType, blockTypeOptions, fontColor, fontHighlight }
+  },
+  methods: {
+    getMoreContent() {
+      return this.editor?.getHTML() || ''
+    }
   }
 })
 </script>

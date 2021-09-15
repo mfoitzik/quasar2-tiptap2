@@ -16,10 +16,15 @@ export default defineComponent({
   setup() {
     const maineditor =  ref<typeof tipTap>()
     const consolehtml = () => {
-      console.log(maineditor.value?.getContent())
+      if (maineditor.value) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        console.log(maineditor.value.getContent())
+      }
+      
     }
     onMounted(() => {
         console.log('mounted!')
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         console.log(maineditor.value?.getContent())
         window.addEventListener('message', (event) => {
            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

@@ -420,7 +420,8 @@ export default defineComponent({
   setup(props, {emit}) {
     const editor = inject(InjectionKeys.editorKey) as Ref<Editor>
     const iSettings = ref<HTMLDivElement>()
-    const sliders = ref(false)
+    const sliders = ref(false) // ref(props.myProp)
+    // let { show } = toRefs(props)
     // const imageArray = ref<Array<ImageItem>>([])
     const imageArray = ref<Array<ImageItem>>(props.images as Array<ImageItem>)
     const selectedImage = ref('')
@@ -521,13 +522,20 @@ export default defineComponent({
       imageSrc.value = selectedImage.value
       imageSelector.value = false
     }
-
     const insertImage = () => {
       if (selectedImage.value !== '') {
         editor.value.chain().focus().setImage({ src: selectedImage.value, alt: 'this is the alt text', title: 'my title', style: 'border:20px solid green;' }).run()
       }
       sliders.value = false
     }
+    // watch(
+    //     () => props.show,
+    //     (newValue, oldValue) => {
+    //       // console.log("deep ", cars.value, prevCars.value);
+    //       sliders.value = newValue
+    //     },
+    //     { deep: true }
+    //   );
 
     return { imageSrc, iSettings, iStop, showSettings,
       sliders,
@@ -585,18 +593,24 @@ export default defineComponent({
         show: Boolean,
         images: Array
     },
-    watch: {
-    show(value:boolean, oldValue:boolean) {
-      console.log('NEW WATCH VALUE: ' + value.toString())
-      console.log('OLD WATCH VALUE: ' + oldValue.toString())
-      this.sliders = true
-    },
+    methods: {
+      showDialog() {
+        console.log('SHOW DIALOG TRIGGERED')
+        this.sliders = true
+      }
+    }
+    // watch: {
+    // show(value:boolean, oldValue:boolean) {
+    //   console.log('NEW WATCH VALUE: ' + value.toString())
+    //   console.log('OLD WATCH VALUE: ' + oldValue.toString())
+    //   this.sliders = value
+    // },
     // images(value:Array<ImageItem>, oldValue:Array<ImageItem>) {
     //   console.log('NEW WATCH VALUE: ' + value.toString())
     //   console.log('OLD WATCH VALUE: ' + oldValue.toString())
     //   this.imageArray = value
     // }
-  }
+  // }
 })
 
 </script>

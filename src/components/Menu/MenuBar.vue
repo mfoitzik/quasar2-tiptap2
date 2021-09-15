@@ -291,7 +291,7 @@
         <q-btn flat padding="xs" icon="format_clear" @click="imageSelector = true">
         </q-btn>
     </q-toolbar>
-    <image-dialog :show="imageSelector" @newBorder="testEmit" :images="imageSelection" />
+    <image-dialog :show="imageSelector" @newBorder="testEmit" :images="imageSelection" ref="iDialog" />
 </template>
 
 <script lang="ts">
@@ -306,6 +306,10 @@ export default defineComponent({
   },
 
   setup() {
+    interface imageDialog {
+        showDialog: () => void
+    }
+    const iDialog = ref<imageDialog>()
     const imageSelection = ref([
                                 {'url':'https://www.mifo.com/testimages/image1.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image1_tn.jpg'},
                                 {'url':'https://www.mifo.com/testimages/image2.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image2_tn.jpg'},
@@ -348,7 +352,7 @@ export default defineComponent({
         }
     }
     const testEmit = (e) => {
-        console.log('EVENT EMITTED: ' + e)
+        // console.log('EVENT EMITTED: ' + e)
         console.log(e)
     }
     const changeFontFamily = (value) => {
@@ -387,7 +391,14 @@ export default defineComponent({
     }
 
     const addImage = () => {
-    imageSelector.value = true
+    console.log('SET IMAGE SELECTOR TRUEXXX')
+    // imageSelector.value = true
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+    
+    if (iDialog.value){
+        iDialog.value.showDialog()
+    }
+
     // iDialog.showSettings()
     //   const url = window.prompt('URL')
     //   if (url) {
@@ -457,7 +468,8 @@ export default defineComponent({
         fontHighlight,
         imageSelector,
         testEmit,
-        imageSelection
+        imageSelection,
+        iDialog
     }
   },
 })
