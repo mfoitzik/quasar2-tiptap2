@@ -355,7 +355,7 @@ export default defineComponent({
         // console.log('EVENT EMITTED: ' + e)
         console.log(e)
     }
-    const changeFontFamily = (value) => {
+    const changeFontFamily = (value: string) => {
         editor.value.chain().focus().setFontFamily(value).run()
     }
 

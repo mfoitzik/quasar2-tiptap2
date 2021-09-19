@@ -16,6 +16,7 @@
                 stack-label
                 dense
                 class="q-mx-sm"
+                @update:model-value="imageSrcChanged"
               >
                 <template v-slot:append>
                   <q-icon
@@ -41,14 +42,25 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-xs-5">
+            <div class="col-xs-4">
               <q-input
-                v-model="imageHeight"
-                label="height"
+                v-model="imageWidth"
+                label="width"
                 stack-label
                 dense
+                :disable="imageWidthDisabled"
+                @update:model-value="imageWidthChanged"
                 class="q-mx-sm"
               />
+            </div>
+            <div class="col-xs-1">
+              <q-select 
+              v-model="imageWidthUom" 
+              :options="imageWidthUomOptions" 
+              dense 
+              label="Unit" 
+              @update:model-value = "v => changeImageWidthUom(v)"
+              class="q-mx-sm" />
             </div>
             <!--<q-icon name="hyperlink_off" size="md" />
               <div style="height:25px;width:25px;border:1px solid red;"><q-icon name="hyperlink_off"  /></div>-->
@@ -88,14 +100,25 @@
                 </span>--><q-icon name="mdi-link-off" size="sm" />
               </div>
             </div>
-            <div class="col-xs-5">
+            <div class="col-xs-4">
               <q-input
-                v-model="imageWidth"
-                label="width"
+                v-model="imageHeight"
+                label="height"
                 stack-label
                 dense
+                :disable="imageHeightDisabled"
+                @update:model-value="imageHeightChanged"
                 class="q-mx-sm"
               />
+            </div>
+            <div class="col-xs-1">
+              <q-select 
+              v-model="imageHeightUom" 
+              :options="imageHeightUomOptions" 
+              dense 
+              label="Unit"
+              @update:model-value = "v => changeImageHeightUom(v)" 
+              class="q-mx-sm" />
             </div>
           </div>
         </q-card-section>
@@ -124,13 +147,13 @@
                     <q-icon
                       name="colorize"
                       class="cursor-pointer"
-                      style="border-bottom: 4px solid red"
+                      :style="borderBottomStyle"
                     >
                       <q-popup-proxy
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-color v-model="imageBorderColor" />
+                        <q-color v-model="imageBorderColor" @update:model-value="imageBorderColorChange" />
                       </q-popup-proxy>
                     </q-icon>
                   </template>
@@ -153,6 +176,7 @@
                   :options="imageUOMSelections"
                   label="Units"
                   dense
+                  @update:model-value = "v => changeImageBorderUom(v)"
                   class="q-mx-sm"
                 />
               </div>
@@ -183,6 +207,7 @@
                 <q-select
                   v-model="imageBorderRadiusUOM"
                   :options="imageUOMSelections"
+                  @update:model-value = "v => changeImageBorderRadiusUom(v)"
                   label="Units"
                   dense
                   class="q-mx-sm"
@@ -212,6 +237,7 @@
                 <q-btn-toggle
                   v-model="shadowOn"
                   toggle-color="primary"
+                  @update:model-value="v => changeShadowOn(v)"
                   size="sm"
                   :options="[
                     { label: 'Off', value: 'off' },
@@ -221,22 +247,23 @@
               </div>
               <div class="col-6">
                 <q-input
-                  v-model="imageBorderColor"
+                  v-model="imageShadowColor"
                   class="my-input q-mx-sm"
                   dense
-                  label="Border Color"
+                  :disable="shadowEnabled"
+                  label="Shadow Color"
                 >
                   <template v-slot:append>
                     <q-icon
                       name="colorize"
                       class="cursor-pointer"
-                      style="border-bottom: 4px solid red"
+                      :style="imageShadowColorBottomBorder"
                     >
                       <q-popup-proxy
                         transition-show="scale"
                         transition-hide="scale"
                       >
-                        <q-color v-model="imageBorderColor" />
+                        <q-color v-model="imageShadowColor" @update:model-value="imageShadowColorChange" :disable="shadowEnabled" />
                       </q-popup-proxy>
                     </q-icon>
                   </template>
@@ -250,6 +277,7 @@
                   label="Horizontal Offset"
                   stack-label
                   dense
+                  :disable="shadowEnabled"
                   class="q-mx-sm"
                 />
               </div>
@@ -259,6 +287,8 @@
                   :options="imageUOMSelections"
                   label="Units"
                   dense
+                  :disable="shadowEnabled"
+                  @update:model-value = "v => changeImageShadowHOffsetUom(v)"
                   class="q-mx-sm"
                 />
               </div>
@@ -270,6 +300,7 @@
                   :min="0"
                   :max="100"
                   dense
+                  :disable="shadowEnabled"
                   class="q-mx-md"
                   style="width: auto"
                 />
@@ -282,6 +313,7 @@
                   label="Vertical Offset"
                   stack-label
                   dense
+                  :disable="shadowEnabled"
                   class="q-mx-sm"
                 />
               </div>
@@ -291,6 +323,8 @@
                   :options="imageUOMSelections"
                   label="Units"
                   dense
+                  :disable="shadowEnabled"
+                  @update:model-value = "v => changeImageShadowVOffsetUom(v)"
                   class="q-mx-sm"
                 />
               </div>
@@ -302,6 +336,7 @@
                   :min="0"
                   :max="100"
                   dense
+                  :disable="shadowEnabled"
                   class="q-mx-md"
                   style="width: auto"
                 />
@@ -314,6 +349,7 @@
                   label="Blur"
                   stack-label
                   dense
+                  :disable="shadowEnabled"
                   class="q-mx-sm"
                 />
               </div>
@@ -323,6 +359,8 @@
                   :options="imageUOMSelections"
                   label="Units"
                   dense
+                  :disable="shadowEnabled"
+                  @update:model-value = "v => changeImageShadowBlurUom(v)"
                   class="q-mx-sm"
                 />
               </div>
@@ -334,6 +372,7 @@
                   :min="0"
                   :max="100"
                   dense
+                  :disable="shadowEnabled"
                   class="q-mx-md"
                   style="width: auto"
                 />
@@ -346,6 +385,7 @@
                   label="Spread"
                   stack-label
                   dense
+                  :disable="shadowEnabled"
                   class="q-mx-sm"
                 />
               </div>
@@ -355,6 +395,8 @@
                   :options="imageUOMSelections"
                   label="Units"
                   dense
+                  :disable="shadowEnabled"
+                  @update:model-value = "v => changeImageShadowSpreadUom(v)"
                   class="q-mx-sm"
                 />
               </div>
@@ -366,6 +408,7 @@
                   :min="0"
                   :max="100"
                   dense
+                  :disable="shadowEnabled"
                   class="q-mx-md"
                   style="width: auto"
                 />
@@ -419,6 +462,14 @@ export default defineComponent({
   },
   setup(props, {emit}) {
     const editor = inject(InjectionKeys.editorKey) as Ref<Editor>
+    // <q-select v-model="imageHeightUom" :options="imageUomOptions" dense label="Standard" />
+    const imageHeightDisabled = ref(true)
+    const imageWidthDisabled = ref(true)
+    let imageAspectRatio = 1
+    const imageHeightUom = ref('auto')
+    const imageWidthUom = ref('auto')
+    const imageHeightUomOptions = ['auto','px','%','vh']
+    const imageWidthUomOptions = ['auto','px','%','vw']
     const iSettings = ref<HTMLDivElement>()
     const sliders = ref(false) // ref(props.myProp)
     // let { show } = toRefs(props)
@@ -431,16 +482,20 @@ export default defineComponent({
     const imageHeight = ref('')
     const imageWidth = ref('')
     const imageBorderWidth = ref('')
-    const imageBorderWidthNumber = ref(1)
+    const imageBorderWidthNumber = ref(0)
     const imageBorderWidthUOM = ref('')
     const imageBorderStyle = ref('none')
-    const imageBorderColor = ref('#FB67DD88')
+    const imageBorderColor = ref('#183794ff')
+    const imageShadowColor = ref('#183794ff')
+    const borderBottomStyle = ref('border-bottom: 4px solid #183794ff;')
+    const imageShadowColorBottomBorder = ref('border-bottom: 4px solid #183794ff;')
     const imageBorderRadius = ref('')
     const imageFloat = ref('')
     const imageBoxShadow = ref('')
     const imagePadding = ref('')
     const imageMargin = ref('')
     const shadowOn = ref('off')
+    const shadowEnabled = ref(true)
     const imageBorderRadiusUOM = ref('')
     const imageBorderRadiusNumber = ref('')
 
@@ -473,28 +528,87 @@ export default defineComponent({
     const imageSelector = ref(false)
     
     const imageBorderChange = (value: string) => {
+      if (imageBorderStyle.value == 'none') {
+        imageBorderStyle.value = 'solid'
+      }
+      if (imageBorderWidthUOM.value == '') {
+        imageBorderWidthUOM.value = 'px'
+      }
       imageBorderWidth.value = value + imageBorderWidthUOM.value
       emit('newBorder', value)
       // updateStyle()
     }
+    // imageSrcChanged
+    const getImageDimensions = (inUrl: string) => {
+      if (isValidHttpUrl(inUrl) == true && isValidImageUrl(inUrl) == true) {
+        let img = document.createElement('img')
+        img.src = inUrl
+        img.onload = function() {
+            img.style.visibility = 'hidden'
+            document.body.appendChild(img)
+            // console.log('IMAGE WIDTH: ' + img.clientWidth.toString())
+            // console.log('IMAGE HEIGHT: ' + img.clientHeight.toString())
+            imageHeight.value = img.clientHeight.toString()
+            imageHeightUom.value = 'px'
+            imageHeightDisabled.value = false
+            imageWidth.value = img.clientWidth.toString()
+            imageWidthUom.value = 'px'
+            imageWidthDisabled.value = false
+            imageAspectRatio = img.clientWidth / img.clientHeight
+            imageConstrainProportions.value = true
+            document.body.removeChild(img)
+        }
+      }
+    }
+    const imageSrcChanged = (value: string) => {
+      getImageDimensions(value)
+    }
+    const imageBorderColorChange = (value: string) => {
+      imageBorderColor.value = value
+      borderBottomStyle.value = 'border-bottom: 4px solid ' + value + ';'
+      emit('newBorderColor', value)
+    }
+
+    const imageShadowColorChange = (value: string) => {
+      imageShadowColor.value = value
+      imageShadowColorBottomBorder.value = 'border-bottom: 4px solid ' + value + ';'
+      emit('newBorderColor', value)
+    }
 
     const imageBorderRadiusChange = (value: string) => {
       imageBorderRadius.value = value + imageBorderRadiusUOM.value
+      if (imageBorderRadiusUOM.value == '') {
+        imageBorderRadiusUOM.value = 'px'
+      }
+      imageBorderWidth.value = value + imageBorderWidthUOM.value
+      emit('newBorder', value)
     }
 
     const imageShadowHOffsetChange = (value: string) => {
+      if (imageShadowHOffsetUOM.value == '') {
+        imageShadowHOffsetUOM.value = 'px'
+      } 
       imageShadowHOffset.value = value + imageShadowHOffsetUOM.value
     }
 
     const imageShadowVOffsetChange = (value: string) => {
+      if (imageShadowVOffsetUOM.value == '') {
+        imageShadowVOffsetUOM.value = 'px'
+      } 
       imageShadowVOffset.value = value + imageShadowVOffsetUOM.value
     }
 
     const imageShadowBlurChange = (value: string) => {
+      if (imageShadowBlurUOM.value == '') {
+        imageShadowBlurUOM.value = 'px'
+      } 
       imageShadowBlur.value = value + imageShadowBlurUOM.value
     }
 
     const imageShadowSpreadChange = (value: string) => {
+      if (imageShadowSpreadUOM.value == '') {
+        imageShadowSpreadUOM.value = 'px'
+      } 
       imageShadowSpread.value = value + imageShadowSpreadUOM.value
     }
 
@@ -520,6 +634,7 @@ export default defineComponent({
 
     const selectImage = () => {
       imageSrc.value = selectedImage.value
+      getImageDimensions(selectedImage.value)
       imageSelector.value = false
     }
     const insertImage = () => {
@@ -528,6 +643,140 @@ export default defineComponent({
       }
       sliders.value = false
     }
+
+    const changeImageHeightUom = (inValue: string) => {
+      if (inValue == 'auto') {
+        imageHeightDisabled.value = true
+      } else {
+        imageHeightDisabled.value = false
+      }
+    }
+
+    const changeImageWidthUom = (inValue: string) => {
+      console.log('LINE 611: ' + inValue)
+      if (inValue == 'auto') {
+        imageWidthDisabled.value = true
+      } else {
+        imageWidthDisabled.value = false
+      }
+    }
+
+    const imageWidthChanged = (inValue: string) => {
+      if (imageConstrainProportions.value == true && ((imageHeightUom.value == 'px' && imageWidthUom.value == 'px') || (imageHeightUom.value == '%' && imageWidthUom.value == '%'))) {
+        imageHeight.value = (parseFloat(inValue) / imageAspectRatio).toFixed(0)
+      }
+    }
+
+    const imageHeightChanged = (inValue: string) => {
+      if (imageConstrainProportions.value == true && ((imageHeightUom.value == 'px' && imageWidthUom.value == 'px') || (imageHeightUom.value == '%' && imageWidthUom.value == '%'))) {
+        imageWidth.value = (parseFloat(inValue) * imageAspectRatio).toFixed(0)
+      }
+    }
+
+    const changeImageBorderUom = (inValue: string) => {
+      // console.log('LINE 631: ' + inValue)
+      if (imageBorderWidth.value != '') {
+        imageBorderWidth.value = imageBorderWidth.value.replace('px', '')
+        imageBorderWidth.value = imageBorderWidth.value.replace('%', '')
+        imageBorderWidth.value = imageBorderWidth.value.replace('rem', '')
+        imageBorderWidth.value = imageBorderWidth.value.replace('em', '')
+        imageBorderWidth.value = imageBorderWidth.value.replace('pc', '')
+        imageBorderWidth.value = imageBorderWidth.value.replace('pt', '')
+        imageBorderWidth.value = imageBorderWidth.value + inValue
+      }
+    }
+    const changeImageBorderRadiusUom = (inValue: string) => {
+      // console.log('LINE 631: ' + inValue)
+      if (imageBorderRadius.value != '') {
+        imageBorderRadius.value = imageBorderRadius.value.replace('px', '')
+        imageBorderRadius.value = imageBorderRadius.value.replace('%', '')
+        imageBorderRadius.value = imageBorderRadius.value.replace('rem', '')
+        imageBorderRadius.value = imageBorderRadius.value.replace('em', '')
+        imageBorderRadius.value = imageBorderRadius.value.replace('pc', '')
+        imageBorderRadius.value = imageBorderRadius.value.replace('pt', '')
+        imageBorderRadius.value = imageBorderRadius.value + inValue
+      }
+    }
+
+    const changeImageShadowHOffsetUom = (inValue: string) => {
+      // console.log('LINE 631: ' + inValue)
+      if (imageShadowHOffset.value != '') {
+        imageShadowHOffset.value = imageShadowHOffset.value.replace('px', '')
+        imageShadowHOffset.value = imageShadowHOffset.value.replace('%', '')
+        imageShadowHOffset.value = imageShadowHOffset.value.replace('rem', '')
+        imageShadowHOffset.value = imageShadowHOffset.value.replace('em', '')
+        imageShadowHOffset.value = imageShadowHOffset.value.replace('pc', '')
+        imageShadowHOffset.value = imageShadowHOffset.value.replace('pt', '')
+        imageShadowHOffset.value = imageShadowHOffset.value + inValue
+      }
+    }
+
+    const changeImageShadowVOffsetUom = (inValue: string) => {
+      // console.log('LINE 631: ' + inValue)
+      if (imageShadowVOffset.value != '') {
+        imageShadowVOffset.value = imageShadowVOffset.value.replace('px', '')
+        imageShadowVOffset.value = imageShadowVOffset.value.replace('%', '')
+        imageShadowVOffset.value = imageShadowVOffset.value.replace('rem', '')
+        imageShadowVOffset.value = imageShadowVOffset.value.replace('em', '')
+        imageShadowVOffset.value = imageShadowVOffset.value.replace('pc', '')
+        imageShadowVOffset.value = imageShadowVOffset.value.replace('pt', '')
+        imageShadowVOffset.value = imageShadowVOffset.value + inValue
+      }
+    }
+
+    const changeImageShadowBlurUom = (inValue: string) => {
+      // console.log('LINE 631: ' + inValue)
+      if (imageShadowBlur.value != '') {
+        imageShadowBlur.value = imageShadowBlur.value.replace('px', '')
+        imageShadowBlur.value = imageShadowBlur.value.replace('%', '')
+        imageShadowBlur.value = imageShadowBlur.value.replace('rem', '')
+        imageShadowBlur.value = imageShadowBlur.value.replace('em', '')
+        imageShadowBlur.value = imageShadowBlur.value.replace('pc', '')
+        imageShadowBlur.value = imageShadowBlur.value.replace('pt', '')
+        imageShadowBlur.value = imageShadowBlur.value + inValue
+      }
+    }
+
+    const changeImageShadowSpreadUom = (inValue: string) => {
+      // console.log('LINE 631: ' + inValue)
+      if (imageShadowSpread.value != '') {
+        imageShadowSpread.value = imageShadowSpread.value.replace('px', '')
+        imageShadowSpread.value = imageShadowSpread.value.replace('%', '')
+        imageShadowSpread.value = imageShadowSpread.value.replace('rem', '')
+        imageShadowSpread.value = imageShadowSpread.value.replace('em', '')
+        imageShadowSpread.value = imageShadowSpread.value.replace('pc', '')
+        imageShadowSpread.value = imageShadowSpread.value.replace('pt', '')
+        imageShadowSpread.value = imageShadowSpread.value + inValue
+      }
+    }
+
+    const changeShadowOn = (inValue: string) => {
+      if (inValue == 'on') {
+        // reverse logic because true disables
+        shadowEnabled.value = false
+      } else {
+        shadowEnabled.value = true
+      }
+    }
+
+    // START UTILITY FUNCTIONS
+    const isValidHttpUrl = (inUrl: string) => {
+      let url: URL
+      
+      try {
+        url = new URL(inUrl)
+      } catch (_) {
+        return false; 
+      }
+
+      return url.protocol === 'http:' || url.protocol === 'https:'
+    }
+
+    const isValidImageUrl = (inUrl: string) => {
+      if (typeof inUrl !== 'string') return false
+      return ((/\.(apng|avif|gif|jpg|jpeg|jfif|pjpeg|pjp|png|svg|webp)$/.exec(inUrl.toLowerCase())) != null)
+    }
+    // END UTILITY FUNCTIONS
     // watch(
     //     () => props.show,
     //     (newValue, oldValue) => {
@@ -586,7 +835,31 @@ export default defineComponent({
       imageSelect,
       selectedImage,
       selectImage,
-      insertImage
+      insertImage,
+      borderBottomStyle,
+      imageBorderColorChange,
+      imageSrcChanged,
+      imageHeightUom,
+      imageHeightUomOptions,
+      imageWidthUom,
+      imageWidthUomOptions,
+      imageHeightDisabled,
+      imageWidthDisabled,
+      changeImageHeightUom,
+      changeImageWidthUom,
+      imageHeightChanged,
+      imageWidthChanged,
+      changeImageBorderUom,
+      changeImageBorderRadiusUom,
+      changeImageShadowHOffsetUom,
+      changeImageShadowVOffsetUom,
+      changeImageShadowBlurUom,
+      changeImageShadowSpreadUom,
+      imageShadowColor,
+      imageShadowColorBottomBorder,
+      imageShadowColorChange,
+      shadowEnabled,
+      changeShadowOn
       }
   },
     props: {
