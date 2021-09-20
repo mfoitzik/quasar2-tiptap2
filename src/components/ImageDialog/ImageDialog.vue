@@ -638,8 +638,59 @@ export default defineComponent({
       imageSelector.value = false
     }
     const insertImage = () => {
+      let widthStyle = ''
+      let heightStyle = ''
+      let borderStyle = ''
+      let borderRadius = ''
+      let borderShadow = ''
+
+      if (imageWidthUom.value == 'auto') {
+        widthStyle = 'width:auto;'
+      } else {
+        widthStyle = 'width:' + imageWidth.value + imageWidthUom.value + ';'
+      }
+      if (imageHeightUom.value == 'auto') {
+        heightStyle = 'height:auto;'
+      } else {
+        heightStyle = 'height:' + imageHeight.value + imageHeightUom.value + ';'
+      }
+      if (imageBorderStyle.value == 'none') {
+        borderStyle = 'border:none;'
+      } else {
+        borderStyle = 'border:' + imageBorderWidth.value + ' ' + imageBorderStyle.value + ' ' + imageBorderColor.value + ';'
+      }
+      if (imageBorderRadius.value == '') {
+        borderRadius = 'border-radius:none;'
+      } else {
+        borderRadius = 'border-radius:' + imageBorderRadius.value + ';'
+      }
+      if (shadowOn.value == 'off') {
+        borderShadow = 'box-shadow: none;'
+      } else {
+        // check for blank values
+        if (imageShadowHOffset.value == '') {
+          imageShadowHOffsetUOM.value = 'px'
+          imageShadowHOffset.value = '0px'
+        }
+        if (imageShadowVOffset.value == '') {
+          imageShadowVOffsetUOM.value = 'px'
+          imageShadowVOffset.value = '0px'
+        }
+        if (imageShadowBlur.value == '') {
+          imageShadowBlurUOM.value = 'px'
+          imageShadowBlur.value = '0px'
+        }
+        if (imageShadowSpread.value == '') {
+          imageShadowSpreadUOM.value = 'px'
+          imageShadowSpread.value = '0px'
+        }
+        // end check for blanks
+        borderShadow = 'box-shadow:' + imageShadowHOffset.value + ' ' + imageShadowVOffset.value + ' ' + imageShadowBlur.value + ' ' + imageShadowSpread.value + ' ' + imageShadowColor.value + ';'
+      }
+      const fullStyle = widthStyle + heightStyle + borderStyle + borderRadius + borderShadow
+      console.log('COMPLETE STYLE: ' + fullStyle)
       if (selectedImage.value !== '') {
-        editor.value.chain().focus().setImage({ src: selectedImage.value, alt: 'this is the alt text', title: 'my title', style: 'border:20px solid green;' }).run()
+        editor.value.chain().focus().setImage({ src: selectedImage.value, alt: imageAlt.value, title: imageAlt.value, style: fullStyle }).run()
       }
       sliders.value = false
     }
