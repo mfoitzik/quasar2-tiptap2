@@ -1,259 +1,35 @@
 <template>
   
-  <node-view-wrapper class="vue-componentx">
+  <node-view-wrapper as="p" class="vue-componentx">
     <node-view-content class="content" />
       <div class="iSettings" ref="iSettings" @mousedown = "iStop" @click="showSettings"><q-icon name="settings" class="iSettingsIcon" /></div>
       <div class="iHandle" ref="iHandle" @mousedown="beginResize"></div>
       <div class="iSpan" ref="iWrapper"><img @mousedown = "iStop" @click="iClick" :src="imageSrc" :style="iStyle" :alt="iAlt" ref="iMain" /></div>
-      <button type="button" @click="tbtn">test</button>
-      <q-dialog v-model="sliders" style="width: 1200px">
-      <q-card style="width: 1200px" class="q-px-sm q-pb-md">
-        <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">Image Properties</div>
-          <q-space />
-          <q-btn icon="close" flat round dense v-close-popup />
-          </q-card-section>
-          <q-card-section>
-          <div class="row">
-            <div class="col-12">
-              <q-input v-model="imageSrc" label="src" stack-label dense class="q-mx-sm">
-                <template v-slot:append>
-                  <q-icon name="more_horiz" color="black" size="xs" @click="imageSelector = true" style="align-self: flex-end;cursor:pointer;" />
-                </template>
-              </q-input>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <q-input v-model="imageAlt" label="alt" stack-label dense class="q-mx-sm" />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-5">
-              <q-input v-model="imageHeight" label="height" stack-label dense class="q-mx-sm" />
-            </div>
-            <!--<q-icon name="hyperlink_off" size="md" />
-              <div style="height:25px;width:25px;border:1px solid red;"><q-icon name="hyperlink_off"  /></div>-->
-            <div @click="imageConstrainProportions = false" v-if="imageConstrainProportions == true" class="col-xs-2 flex justify-center items-center showPointer q-pt-md">
-              <div style="display:inline-block;">
-                <!--<span class="material-icons" style="font-size:30px;">
-                  mdi-link
-                </span>--><q-icon name="mdi-link" size="sm" />
-              </div>
-            </div>
-            <div @click="imageConstrainProportions = true" v-if="imageConstrainProportions == false" class="col-xs-2 flex justify-center items-center showPointer q-pt-md">
-              <div style="display:inline-block;">
-                <!--<span class="material-icons" style="font-size:30px;">
-                  mdi-link-off
-                </span>--><q-icon name="mdi-link-off" size="sm" />
-              </div>
-            </div>
-            <div class="col-xs-5">
-              <q-input v-model="imageWidth" label="width" stack-label dense class="q-mx-sm" />
-            </div>
-          </div>
-        </q-card-section>
-        
-
-        <q-item-label header>Border</q-item-label>
-        <q-item dense>
-          <q-item-section>
-            <div class="row">
-              <div class="col-6">
-                <q-select  v-model="imageBorderStyle" :options="imageBorderStyleSelections" label="Border Style" dense class="q-mx-sm" />
-              </div>
-              <div class="col-6">
-                <q-input
-                  
-                  v-model="imageBorderColor"
-                  class="my-input q-mx-sm"
-                  dense
-                  label="Border Color"
-                >
-                  <template v-slot:append>
-                    <q-icon name="colorize" class="cursor-pointer" style="border-bottom:4px solid red;">
-                      <q-popup-proxy transition-show="scale" transition-hide="scale">
-                        <q-color v-model="imageBorderColor" />
-                      </q-popup-proxy>
-                    </q-icon>
-                  </template>
-                </q-input>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-3">
-                <q-input v-model="imageBorderWidth" label="Border Width" stack-label dense class="q-mx-sm" />
-              </div>
-              <div class="col-2">
-                <q-select  v-model="imageBorderWidthUOM" :options="imageUOMSelections" label="Units" dense class="q-mx-sm" />
-              </div>
-              <div class="col-7 q-pt-lg">
-                <q-slider color="teal" v-model="imageBorderWidthNumber"
-                @update:model-value="imageBorderChange"
-                :min="0" :max="100"
-                dense
-                class="q-mx-md"
-                style="width:auto;" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-3">
-                <q-input v-model="imageBorderRadius" label="Border Radius" stack-label dense class="q-mx-sm" />
-              </div>
-              <div class="col-2">
-                <q-select  v-model="imageBorderRadiusUOM" :options="imageUOMSelections" label="Units" dense class="q-mx-sm" />
-              </div>
-              <div class="col-7 q-pt-lg">
-                <q-slider color="teal" v-model="imageBorderRadiusNumber"
-                @update:model-value="imageBorderRadiusChange"
-                :min="0" :max="100"
-                dense
-                class="q-mx-md"
-                style="width:auto;" />
-              </div>
-            </div>
-          </q-item-section>
-        </q-item>
-
-        <q-item-label header>Shadow</q-item-label>
-        <q-item dense>
-          <q-item-section>
-            <div class="row">
-              <div class="col-6">
-                <q-btn-toggle
-                  v-model="shadowOn"
-                  toggle-color="primary"
-                  size="sm"
-                  :options="[
-                    {label: 'Off', value: 'off'},
-                    {label: 'On', value: 'on'}
-                  ]"
-                />
-              </div>
-              <div class="col-6">
-                <q-input
-                  
-                  v-model="imageBorderColor"
-                  class="my-input q-mx-sm"
-                  dense
-                  label="Border Color"
-                >
-                  <template v-slot:append>
-                    <q-icon name="colorize" class="cursor-pointer" style="border-bottom:4px solid red;">
-                      <q-popup-proxy transition-show="scale" transition-hide="scale">
-                        <q-color v-model="imageBorderColor" />
-                      </q-popup-proxy>
-                    </q-icon>
-                  </template>
-                </q-input>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-3">
-                <q-input v-model="imageShadowHOffset" label="Horizontal Offset" stack-label dense class="q-mx-sm" />
-              </div>
-              <div class="col-2">
-                <q-select  v-model="imageShadowHOffsetUOM" :options="imageUOMSelections" label="Units" dense class="q-mx-sm" />
-              </div>
-              <div class="col-7 q-pt-lg">
-                <q-slider color="teal" v-model="imageShadowHOffsetNumber"
-                @update:model-value="imageShadowHOffsetChange"
-                :min="0" :max="100"
-                dense
-                class="q-mx-md"
-                style="width:auto;" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-3">
-                <q-input v-model="imageShadowVOffset" label="Vertical Offset" stack-label dense class="q-mx-sm" />
-              </div>
-              <div class="col-2">
-                <q-select  v-model="imageShadowVOffsetUOM" :options="imageUOMSelections" label="Units" dense class="q-mx-sm" />
-              </div>
-              <div class="col-7 q-pt-lg">
-                <q-slider color="teal" v-model="imageShadowVOffsetNumber"
-                @update:model-value="imageShadowVOffsetChange"
-                :min="0" :max="100"
-                dense
-                class="q-mx-md"
-                style="width:auto;" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-3">
-                <q-input v-model="imageShadowBlur" label="Blur" stack-label dense class="q-mx-sm" />
-              </div>
-              <div class="col-2">
-                <q-select  v-model="imageShadowBlurUOM" :options="imageUOMSelections" label="Units" dense class="q-mx-sm" />
-              </div>
-              <div class="col-7 q-pt-lg">
-                <q-slider color="teal" v-model="imageShadowBlurNumber"
-                @update:model-value="imageShadowBlurChange"
-                :min="0" :max="100"
-                dense
-                class="q-mx-md"
-                style="width:auto;" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-3">
-                <q-input v-model="imageShadowSpread" label="Spread" stack-label dense class="q-mx-sm" />
-              </div>
-              <div class="col-2">
-                <q-select  v-model="imageShadowSpreadUOM" :options="imageUOMSelections" label="Units" dense class="q-mx-sm" />
-              </div>
-              <div class="col-7 q-pt-lg">
-                <q-slider color="teal" v-model="imageShadowSpreadNumber"
-                @update:model-value="imageShadowSpreadChange"
-                :min="0" :max="100"
-                dense
-                class="q-mx-md"
-                style="width:auto;" />
-              </div>
-            </div>
-          </q-item-section>
-        </q-item>
-
-
-      </q-card>
-    </q-dialog>
-    <q-dialog v-model="imageSelector">
-      <q-card>
-        <q-card-section>
-          <div class="text-h6">Terms of Agreement</div>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-section style="max-height: 50vh" class="scroll">
-          <p v-for="n in 15" :key="n">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.</p>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-actions align="right">
-          <q-btn flat label="Decline" color="primary" v-close-popup />
-          <q-btn flat label="Accept" color="primary" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+      <image-dialog ref="iDialog" :pattributes="outAttributes" :mode="imageDialogMode" />
   </node-view-wrapper>
 </template>
 
 <script lang="ts">
 import { NodeViewWrapper, NodeViewContent, nodeViewProps} from '@tiptap/vue-3'
 import { defineComponent, onMounted, ref } from 'vue'
-
+import imageDialog from '../ImageDialog/ImageDialog.vue'
 
 export default defineComponent({
   components: {
     NodeViewWrapper,
     NodeViewContent,
+    imageDialog
   },
   setup(props) {
+    interface imageDialog {
+        showDialog: () => void
+    }
+    const iDialog = ref<imageDialog>()
     const iStyle = ref('')
     const iAlt = ref('')
+    const imageSelection = ref([])
+    const outAttributes = ref([])
+    const imageDialogMode = ref('')
     //const fontFamily = ref<SelectItem>({} as SelectItem)
     const iMain = ref<HTMLImageElement>()
     const iHandle =ref<HTMLDivElement>()
@@ -436,9 +212,38 @@ export default defineComponent({
     const iStop = (e:MouseEvent) => {
       e.stopPropagation()
     }
+    const parseBoxShadow = (inCss: string) => {
+      const cleanedInput = inCss.replace(/, /g,',').split(' ')
+      const outArray = []
+      if (cleanedInput.length > 0) {
+        for (let i = 0; i < cleanedInput.length; i++) {
+          
+        }
+      }
+      return cleanedInput
+    }
     const showSettings = () => {
       // console.log('show settings')
-      sliders.value = true
+      // sliders.value = true
+      if (iMain.value) {
+        console.log(iMain.value.src)
+        console.log(iMain.value.alt)
+        console.log(iMain.value.style.width)
+        console.log(iMain.value.style.height)
+        console.log(iMain.value.style.borderStyle)
+        console.log(iMain.value.style.borderColor)
+        console.log(iMain.value.style.borderWidth)
+        console.log(iMain.value.style.borderRadius)
+        const getShadowComponents: string[] = parseBoxShadow(iMain.value.style.boxShadow)
+        if (getShadowComponents[0]) {
+
+        }
+        console.log(iMain.value.style.boxShadow.replace(/, /g,','))
+      }
+      
+      if (iDialog.value){
+        iDialog.value.showDialog()
+      }
 
     }
     const tbtnx = () => {
@@ -534,7 +339,11 @@ export default defineComponent({
       imageShadowSpreadChange,
       setBorderStyle,
       imageSelector,
-      iAlt
+      iAlt,
+      iDialog,
+      imageSelection,
+      outAttributes,
+      imageDialogMode
       }
   },
   methods: {
