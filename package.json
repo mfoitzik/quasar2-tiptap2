@@ -29,7 +29,8 @@
     "@tiptap/starter-kit": "^2.0.0-beta.82",
     "@tiptap/vue-3": "^2.0.0-beta.45",
     "core-js": "^3.6.5",
-    "quasar": "^2.0.0"
+    "quasar": "^2.0.0",
+    "vue": "^3.1.4"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",

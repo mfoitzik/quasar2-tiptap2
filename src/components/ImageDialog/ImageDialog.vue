@@ -452,15 +452,19 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, inject, ref, Ref } from 'vue'
+import { defineComponent, inject, computed, ref, Ref } from 'vue'
 import { Editor } from '@tiptap/vue-3'
 import * as InjectionKeys from '../Types/injection-keys'
 import ImageItem from '../Types/image-item'
+import {iImageAttributes} from '../Types/image-attributes'
 export default defineComponent({
   components: {
 
   },
   setup(props, {emit}) {
+    const getPattributes = ref<iImageAttributes>(props.pattributes as iImageAttributes)
+    const getMode = ref<string>(props.mode as string)
+    const newMode = ref(props.mode)
     const editor = inject(InjectionKeys.editorKey) as Ref<Editor>
     // <q-select v-model="imageHeightUom" :options="imageUomOptions" dense label="Standard" />
     const imageHeightDisabled = ref(true)
@@ -474,7 +478,8 @@ export default defineComponent({
     const sliders = ref(false) // ref(props.myProp)
     // let { show } = toRefs(props)
     // const imageArray = ref<Array<ImageItem>>([])
-    const imageArray = ref<Array<ImageItem>>(props.images as Array<ImageItem>)
+    // const imageArray = ref<Array<ImageItem>>(props.images as Array<ImageItem>)
+    const imageArray = inject(InjectionKeys.imageSelectionsKey) as Ref<ImageItem[]>
     const selectedImage = ref('')
     const imageConstrainProportions = ref(true)
     const imageSrc = ref('')
@@ -576,11 +581,10 @@ export default defineComponent({
     }
 
     const imageBorderRadiusChange = (value: string) => {
-      imageBorderRadius.value = value + imageBorderRadiusUOM.value
       if (imageBorderRadiusUOM.value == '') {
         imageBorderRadiusUOM.value = 'px'
       }
-      imageBorderWidth.value = value + imageBorderWidthUOM.value
+      imageBorderRadius.value = value + imageBorderRadiusUOM.value
       emit('newBorder', value)
     }
 
@@ -685,7 +689,7 @@ export default defineComponent({
           imageShadowSpread.value = '0px'
         }
         // end check for blanks
-        borderShadow = 'box-shadow:' + imageShadowHOffset.value + ' ' + imageShadowVOffset.value + ' ' + imageShadowBlur.value + ' ' + imageShadowSpread.value + ' ' + imageShadowColor.value + ';'
+        borderShadow = 'box-shadow:' + imageShadowHOffset.value + ' ' + imageShadowVOffset.value + ' ' + imageShadowBlur.value + ' ' + imageShadowSpread.value + ' ' + imageShadowColor.value +  ';'
       }
       const fullStyle = widthStyle + heightStyle + borderStyle + borderRadius + borderShadow
       console.log('COMPLETE STYLE: ' + fullStyle)
@@ -827,6 +831,15 @@ export default defineComponent({
       if (typeof inUrl !== 'string') return false
       return ((/\.(apng|avif|gif|jpg|jpeg|jfif|pjpeg|pjp|png|svg|webp)$/.exec(inUrl.toLowerCase())) != null)
     }
+    const showDialog = () => {
+        console.log('SHOW DIALOG TRIGGERED')
+        console.log('LINE 925@@@@@@@@@@@@@@@@@@')
+        if (props.pattributes) {
+          console.log(props.pattributes.mode)
+          console.log(props.pattributes.src)
+        }
+        sliders.value = true
+      }
     // END UTILITY FUNCTIONS
     // watch(
     //     () => props.show,
@@ -910,19 +923,27 @@ export default defineComponent({
       imageShadowColorBottomBorder,
       imageShadowColorChange,
       shadowEnabled,
-      changeShadowOn
+      changeShadowOn,
+      getPattributes,
+      getMode,
+      newMode,
+      showDialog
       }
   },
     props: {
-        show: Boolean,
-        images: Array
+        images: Array,
+        pattributes: Object,
+        mode: String
     },
-    methods: {
-      showDialog() {
-        console.log('SHOW DIALOG TRIGGERED')
-        this.sliders = true
-      }
-    }
+    // methods: {
+    //   showDialog() {
+    //     console.log('SHOW DIALOG TRIGGERED')
+    //     console.log('LINE 925@@@@@@@@@@@@@@@@@@')
+    //     console.log(this.newMode)
+    //     console.log(this.getPattributes)
+    //     this.sliders = true
+    //   }
+    // }
     // watch: {
     // show(value:boolean, oldValue:boolean) {
     //   console.log('NEW WATCH VALUE: ' + value.toString())

@@ -24,7 +24,6 @@ export default Node.create({
     return [
       {
         tag: 'img',
-
       },
     ]
   },

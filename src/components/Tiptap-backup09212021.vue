@@ -25,7 +25,6 @@ import Image from './CustomExtensions/image'
 import Dropcursor from '@tiptap/extension-dropcursor'
 import Underline from '@tiptap/extension-underline'
 import MenuBar from './Menu/MenuBar.vue'
-import imageItem from './Types/image-item'
 import initialContent from './Content/initial-content'
 import { defineComponent, ref, provide } from 'vue';
 import blockTypes from './SelectItems/block-type'
@@ -139,15 +138,11 @@ export default defineComponent({
     const blockTypeOptions = ref<SelectItem[]>(blockTypes)
     const fontColor = ref('#000000FF')
     const fontHighlight = ref('00FFFF')
-    const imageSelections = ref<imageItem[]>([])
     const getContent = ():string => {
         return editor?.value?.getHTML() || ''
     }
     const setContent = (val: string) => {
         editor?.value?.commands.setContent(val)
-    }
-    const setImageSelections = (val: imageItem[]) => {
-        imageSelections.value = val
     }
    
     provide(InjectionKeys.editorKey, editor)
@@ -157,10 +152,9 @@ export default defineComponent({
     provide(InjectionKeys.fontSizeOptionsKey, fontSizeOptions)
     provide(InjectionKeys.blockTypeKey, blockType)
     provide(InjectionKeys.blockTypeOptionsKey, blockTypeOptions)
-    provide(InjectionKeys.imageSelectionsKey, imageSelections)
     provide('fontColor', fontColor)
     provide('fontHighlight', fontHighlight)
-    return { editor, getContent, setContent, setImageSelections, fontFamilyOptions, fontFamily, fontSize, fontSizeOptions, blockType, blockTypeOptions, fontColor, fontHighlight, imageSelections }
+    return { editor, getContent, setContent, fontFamilyOptions, fontFamily, fontSize, fontSizeOptions, blockType, blockTypeOptions, fontColor, fontHighlight }
   },
   methods: {
     getMoreContent() {

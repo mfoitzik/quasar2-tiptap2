@@ -5,7 +5,7 @@
       <div class="iSettings" ref="iSettings" @mousedown = "iStop" @click="showSettings"><q-icon name="settings" class="iSettingsIcon" /></div>
       <div class="iHandle" ref="iHandle" @mousedown="beginResize"></div>
       <div class="iSpan" ref="iWrapper"><img @mousedown = "iStop" @click="iClick" :src="imageSrc" :style="iStyle" :alt="iAlt" ref="iMain" /></div>
-      <image-dialog ref="iDialog" :pattributes="outAttributes" :mode="imageDialogMode" />
+      <image-dialog ref="iDialog" :pattributes="outAttributes" />
   </node-view-wrapper>
 </template>
 
@@ -13,7 +13,7 @@
 import { NodeViewWrapper, NodeViewContent, nodeViewProps} from '@tiptap/vue-3'
 import { defineComponent, onMounted, ref } from 'vue'
 import imageDialog from '../ImageDialog/ImageDialog.vue'
-
+import {ImageAttributes, iImageAttributes} from '../Types/image-attributes'
 export default defineComponent({
   components: {
     NodeViewWrapper,
@@ -22,15 +22,14 @@ export default defineComponent({
   },
   setup(props) {
     interface imageDialog {
+        pattributes: ImageAttributes
         showDialog: () => void
     }
     const iDialog = ref<imageDialog>()
     const iStyle = ref('')
     const iAlt = ref('')
     const imageSelection = ref([])
-    const outAttributes = ref([])
-    const imageDialogMode = ref('')
-    //const fontFamily = ref<SelectItem>({} as SelectItem)
+    const outAttributes = ref<iImageAttributes>(new ImageAttributes)
     const iMain = ref<HTMLImageElement>()
     const iHandle =ref<HTMLDivElement>()
     const iWrapper = ref<HTMLDivElement>()
@@ -76,7 +75,6 @@ export default defineComponent({
     const imageUOMSelections = [
         'px', '%', 'em', 'rem', 'pc', 'pt'
       ]
-
     const slide = ref(1)
     const slideVol = ref(39)
     const slideAlarm = ref(56)
@@ -212,36 +210,84 @@ export default defineComponent({
     const iStop = (e:MouseEvent) => {
       e.stopPropagation()
     }
+    interface parsedBoxShadow {
+      color: string,
+      hOffset: string,
+      vOffset: string,
+      blur: string,
+      spread: string
+    }
     const parseBoxShadow = (inCss: string) => {
       const cleanedInput = inCss.replace(/, /g,',').split(' ')
-      const outArray = []
+      const outObject = {color: '', hOffset: '', vOffset: '', blur: '', spread: ''} as parsedBoxShadow
+      
+      console.log('LINE 226')
+      console.log(cleanedInput.length)
+      console.log(outObject)
       if (cleanedInput.length > 0) {
         for (let i = 0; i < cleanedInput.length; i++) {
-          
+          // ignore inset - does not work on iomage element
+          if (cleanedInput[i].toLowerCase() != 'inset') {
+            if (cleanedInput[i].indexOf('#') >= 0 || cleanedInput[i].indexOf('rgb') >= 0 || isNaN(parseInt(cleanedInput[i])) == true) {
+              outObject.color = cleanedInput[i]
+            } else {
+              if (outObject.hOffset == '') {
+                outObject.hOffset = cleanedInput[i]
+              } else if (outObject.vOffset == '') {
+                outObject.vOffset = cleanedInput[i]
+              } else if (outObject.blur == '') {
+                outObject.blur = cleanedInput[i]
+              } else if (outObject.spread == '') {
+                outObject.spread = cleanedInput[i]
+              }
+            }
+          }
         }
       }
-      return cleanedInput
+      return outObject
     }
     const showSettings = () => {
       // console.log('show settings')
       // sliders.value = true
+      const outObj = new ImageAttributes
       if (iMain.value) {
-        console.log(iMain.value.src)
-        console.log(iMain.value.alt)
-        console.log(iMain.value.style.width)
-        console.log(iMain.value.style.height)
-        console.log(iMain.value.style.borderStyle)
-        console.log(iMain.value.style.borderColor)
-        console.log(iMain.value.style.borderWidth)
-        console.log(iMain.value.style.borderRadius)
-        const getShadowComponents: string[] = parseBoxShadow(iMain.value.style.boxShadow)
-        if (getShadowComponents[0]) {
-
+        const getShadowComponents = parseBoxShadow(iMain.value.style.boxShadow)
+        outObj.src = iMain.value.src
+        outObj.alt = iMain.value.alt
+        outObj.width = (isNaN(parseFloat(iMain.value.style.width))) ? '' : parseFloat(iMain.value.style.width).toString()
+        outObj.widthUom = iMain.value.style.width.replace(/[0-9.\-]/g,'')
+        outObj.height = (isNaN(parseFloat(iMain.value.style.height))) ? '' : parseFloat(iMain.value.style.height).toString()
+        outObj.heightUom = iMain.value.style.height.replace(/[0-9.\-]/g,'')
+        outObj.borderStyle = iMain.value.style.borderStyle
+        outObj.borderColor = iMain.value.style.borderColor
+        outObj.borderWidth = (isNaN(parseFloat(iMain.value.style.borderWidth))) ? '' : parseFloat(iMain.value.style.borderWidth).toString()
+        outObj.borderWidthUom = iMain.value.style.borderWidth.replace(/[0-9.\-]/g,'')
+        outObj.borderRadius = (isNaN(parseFloat(iMain.value.style.borderRadius))) ? '' : parseFloat(iMain.value.style.borderRadius).toString()
+        console.log('LINE268!!!!!')
+        console.log(parseFloat(getShadowComponents.hOffset))
+        outObj.borderRadiusUom = iMain.value.style.borderRadius.replace(/[0-9.\-]/g,'')
+        if (getShadowComponents.hOffset != '') {
+          console.log('LINE 272!')
+          console.log(getShadowComponents)
+          outObj.shadow = 'yes'
+          outObj.shadowColor = getShadowComponents.color
+          outObj.hOffset = (isNaN(parseFloat(getShadowComponents.hOffset))) ? '' : parseFloat(getShadowComponents.hOffset).toString()
+          outObj.hOffsetUom = getShadowComponents.hOffset.replace(/[0-9.\-]/g,'')
+          outObj.vOffset = (isNaN(parseFloat(getShadowComponents.vOffset))) ? '' : parseFloat(getShadowComponents.vOffset).toString()
+          outObj.vOffsetUom = getShadowComponents.vOffset.replace(/[0-9.\-]/g,'')
+          outObj.blur = (isNaN(parseFloat(getShadowComponents.blur))) ? '' : parseFloat(getShadowComponents.blur).toString()
+          outObj.blurUom = getShadowComponents.blur.replace(/[0-9.\-]/g,'')
+          outObj.spread = (isNaN(parseFloat(getShadowComponents.spread))) ? '' : parseFloat(getShadowComponents.spread).toString()
+          outObj.spreadUom = getShadowComponents.spread.replace(/[0-9.\-]/g,'')
         }
-        console.log(iMain.value.style.boxShadow.replace(/, /g,','))
       }
-      
+      console.log('LINE282!')
+      console.log(outObj)
+      outObj.mode = 'edit'
       if (iDialog.value){
+        for (let k in outObj) {
+          outAttributes.value[k] = outObj[k] as string
+        }
         iDialog.value.showDialog()
       }
 
@@ -342,8 +388,7 @@ export default defineComponent({
       iAlt,
       iDialog,
       imageSelection,
-      outAttributes,
-      imageDialogMode
+      outAttributes
       }
   },
   methods: {

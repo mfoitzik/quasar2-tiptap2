@@ -1,7 +1,7 @@
 <template>
     <q-toolbar v-if="editor" class="toolbar-border q-pa-xs wrap">
         <q-btn flat padding="xs" icon="undo" @click="editor.chain().focus().undo().run()" >
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div class="tooltip-wrapper">
                 <div>Undo</div>
                 <div>
@@ -13,7 +13,7 @@
             </q-tooltip>
         </q-btn>
         <q-btn flat padding="xs" icon="redo" @click="editor.chain().focus().redo().run()">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Redo</div>
             <div>
                 <div><strong>Shortcuts</strong></div>
@@ -24,7 +24,7 @@
         </q-btn>
         <q-separator vertical inset />
         <q-btn flat padding="xs" icon="format_bold" @click="editor.chain().focus().toggleBold().run()" :class="{ 'menu-button-active': editor.isActive('bold') }">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Make Text <span style="font-weight:bold;">Bold</span></div>
             <div>
                 <div><strong>Shortcuts</strong></div>
@@ -34,7 +34,7 @@
             </q-tooltip>
         </q-btn>
         <q-btn flat padding="xs" icon="format_italic" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'menu-button-active': editor.isActive('italic') }">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Make Text <span style="font-style:italic;">Italic</span></div>
             <div>
                 <div><strong>Shortcuts</strong></div>
@@ -44,7 +44,7 @@
             </q-tooltip>
         </q-btn>
         <q-btn flat padding="xs" icon="format_underlined" @click="editor.chain().focus().toggleUnderline().run()" :class="{ 'menu-button-active': editor.isActive('underline') }">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Make Text <u>Underline</u></div>
             <div>
                 <div><strong>Shortcuts</strong></div>
@@ -54,7 +54,7 @@
             </q-tooltip>
         </q-btn>
         <q-btn flat padding="xs" icon="strikethrough_s" @click="editor.chain().focus().toggleStrike().run()" :class="{ 'menu-button-active': editor.isActive('strike') }">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Make Text <span style="text-decoration: line-through;">Strikethrough</span></div>
             <div>
                 <div><strong>Shortcuts</strong></div>
@@ -129,7 +129,7 @@
         </q-select>
         <q-separator vertical inset />
         <q-btn flat padding="xs" icon="format_align_left" @click="toggleTextAlignment('left')" :class="{ 'menu-button-active': editor.isActive({ textAlign: 'left' }) }">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Text Align Left</div>
             <div>
                 <div><strong>Shortcuts</strong></div>
@@ -139,7 +139,7 @@
             </q-tooltip>
         </q-btn>
         <q-btn flat padding="xs" icon="format_align_center" @click="toggleTextAlignment('center')" :class="{ 'menu-button-active': editor.isActive({ textAlign: 'center' }) }">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Text Align Center</div>
             <div>
                 <div><strong>Shortcuts</strong></div>
@@ -149,7 +149,7 @@
             </q-tooltip>
         </q-btn>
         <q-btn flat padding="xs" icon="format_align_right" @click="toggleTextAlignment('right')" :class="{ 'menu-button-active': editor.isActive({ textAlign: 'right' }) }">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Text Align Right</div>
             <div>
                 <div><strong>Shortcuts</strong></div>
@@ -159,7 +159,7 @@
             </q-tooltip>
         </q-btn>
         <q-btn flat padding="xs" icon="format_align_justify" @click="toggleTextAlignment('justify')" :class="{ 'menu-button-active': editor.isActive({ textAlign: 'justify' }) }">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Text Align Justify</div>
             <div>
                 <div><strong>Shortcuts</strong></div>
@@ -170,7 +170,7 @@
         </q-btn>
         <q-separator vertical inset />
         <q-btn flat padding="xs" icon="format_list_bulleted" @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'menu-button-active': editor.isActive('bulletList') }">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Bulleted List</div>
             <div>
                 <div><strong>Shortcuts</strong></div>
@@ -180,7 +180,7 @@
             </q-tooltip>
         </q-btn>
         <q-btn flat padding="xs" icon="format_list_numbered" @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'menu-button-active': editor.isActive('orderedList') }">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Ordered List</div>
             <div>
                 <div><strong>Shortcuts</strong></div>
@@ -190,7 +190,7 @@
             </q-tooltip>
         </q-btn>
         <q-btn flat padding="xs" icon="code" @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'menu-button-active': editor.isActive('codeBlock') }">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Code Block</div>
             <div>
                 <div><strong>Shortcuts</strong></div>
@@ -200,7 +200,7 @@
             </q-tooltip>
         </q-btn>
         <q-btn flat padding="xs" icon="format_indent_increase" @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'menu-button-active': editor.isActive('blockquote') }">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Block Quote</div>
             <div>
                 <div><strong>Shortcuts</strong></div>
@@ -211,12 +211,12 @@
         </q-btn>
         <q-separator vertical inset />
         <q-btn flat padding="xs" icon="insert_photo" @click="addImage">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Insert Image</div>
             </q-tooltip>
         </q-btn>
         <q-btn flat padding="xs" icon="link" @click="setLink" :class="{ 'menu-button-active': editor.isActive('link') }">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Link</div>
             <div>
                 <div><strong>Shortcuts</strong></div>
@@ -226,13 +226,8 @@
             </q-tooltip>
         </q-btn>
         <q-btn flat padding="xs" icon="horizontal_rule" @click="editor.chain().focus().setHorizontalRule().run()">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Insert Horizontal Rule</div>
-            <div>
-                <div><strong>Shortcuts</strong></div>
-                <div>Windows/Linus: <strong>Control Shift 8</strong></div>
-                <div>MacOS: <strong>Cmd Shift 8</strong></div>
-            </div>
             </q-tooltip>
         </q-btn>
         <q-separator vertical inset />
@@ -243,13 +238,8 @@
                     @update:model-value = "changeTextColor()"
                 />
             </q-popup-proxy>
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Set Text Color</div>
-            <div>
-                <div><strong>Shortcuts</strong></div>
-                <div>Windows/Linus: <strong>Control Shift 8</strong></div>
-                <div>MacOS: <strong>Cmd Shift 8</strong></div>
-            </div>
             </q-tooltip>
         </q-btn>
         <q-btn flat padding="xs" icon="border_color">
@@ -258,17 +248,12 @@
               @update:model-value = "changeHighlightColor()"
                />
             </q-popup-proxy>
-            <q-tooltip class="menu-button-tooltip">
-            <div>Set Text Color</div>
-            <div>
-                <div><strong>Shortcuts</strong></div>
-                <div>Windows/Linus: <strong>Control Shift 8</strong></div>
-                <div>MacOS: <strong>Cmd Shift 8</strong></div>
-            </div>
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
+            <div>Set Text Background Color</div>
             </q-tooltip>
         </q-btn>
         <q-btn flat padding="xs" icon="highlight" @click="editor.chain().focus().toggleHighlight().run()" :class="{ 'menu-button-active': editor.isActive('highlight') }">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div><mark>Highlight</mark> Text</div>
             <div>
                 <div><strong>Shortcuts</strong></div>
@@ -279,19 +264,12 @@
         </q-btn>
         <q-separator vertical inset />
         <q-btn flat padding="xs" icon="format_clear" @click="editor.chain().focus().unsetAllMarks().run()">
-            <q-tooltip class="menu-button-tooltip">
+            <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div>Clear Formating</div>
-            <div>
-                <div><strong>Shortcuts</strong></div>
-                <div>Windows/Linus: <strong>Control Shift 8</strong></div>
-                <div>MacOS: <strong>Cmd Shift 8</strong></div>
-            </div>
             </q-tooltip>
         </q-btn>
-        <q-btn flat padding="xs" icon="format_clear" @click="imageSelector = true">
-        </q-btn>
     </q-toolbar>
-    <image-dialog :show="imageSelector" @newBorder="testEmit" :images="imageSelection" ref="iDialog" />
+    <image-dialog :show="imageSelector" @newBorder="testEmit" ref="iDialog" />
 </template>
 
 <script lang="ts">
@@ -310,20 +288,6 @@ export default defineComponent({
         showDialog: () => void
     }
     const iDialog = ref<imageDialog>()
-    const imageSelection = ref([
-                                {'url':'https://www.mifo.com/testimages/image1.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image1_tn.jpg'},
-                                {'url':'https://www.mifo.com/testimages/image2.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image2_tn.jpg'},
-                                {'url':'https://www.mifo.com/testimages/image3.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image3_tn.jpg'},
-                                {'url':'https://www.mifo.com/testimages/image4.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image4_tn.jpg'},
-                                {'url':'https://www.mifo.com/testimages/image5.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image5_tn.jpg'},
-                                {'url':'https://www.mifo.com/testimages/image6.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image6_tn.jpg'},
-                                {'url':'https://www.mifo.com/testimages/image7.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image7_tn.jpg'},
-                                {'url':'https://www.mifo.com/testimages/image8.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image8_tn.jpg'},
-                                {'url':'https://www.mifo.com/testimages/image9.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image9_tn.jpg'},
-                                {'url':'https://www.mifo.com/testimages/image10.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image10_tn.jpg'},
-                                {'url':'https://www.mifo.com/testimages/image11.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image11_tn.jpg'},
-                                {'url':'https://www.mifo.com/testimages/image12.jpg','thumbnailUrl':'https://www.mifo.com/testimages/image12_tn.jpg'},
-                                ])
     const editor = inject(InjectionKeys.editorKey) as Ref<Editor>
     const fontFamily = inject(InjectionKeys.fontFamilyKey) as Ref<SelectItem>
     const fontFamilyOptions = inject(InjectionKeys.fontFamilyOptionsKey) as Ref<SelectItem[]>
@@ -468,7 +432,6 @@ export default defineComponent({
         fontHighlight,
         imageSelector,
         testEmit,
-        imageSelection,
         iDialog
     }
   },
