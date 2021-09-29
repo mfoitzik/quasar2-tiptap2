@@ -5,7 +5,7 @@
       <div class="iSettings" ref="iSettings" @mousedown = "iStop" @click="showSettings"><q-icon name="settings" class="iSettingsIcon" /></div>
       <div class="iHandle" ref="iHandle" @mousedown="beginResize"></div>
       <div class="iSpan" ref="iWrapper"><img @mousedown = "iStop" @click="iClick" :src="imageSrc" :style="iStyle" :alt="iAlt" ref="iMain" /></div>
-      <image-dialog ref="iDialog" :pattributes="outAttributes" />
+      <div><image-dialog ref="iDialog" @imagechanged="updateImage" :pattributes="outAttributes" /></div>
   </node-view-wrapper>
 </template>
 
@@ -81,6 +81,19 @@ export default defineComponent({
     const slideVibration = ref(63)
     const imageSelector = ref(false)
     let startX:number, startY:number, startWidth:number, startHeight:number, heightRatio:number, isShift = false
+
+    const updateImage = (e) => {
+      console.log('CHANGED EVENT LINE 86!!!!!!!!!!!!!!!!!!!!!!!!!')
+      console.log(e)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      imageSrc.value = e.src
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      iAlt.value = e.alt
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      iStyle.value = e.style      
+    }
     
     const tbtn = () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -388,7 +401,8 @@ export default defineComponent({
       iAlt,
       iDialog,
       imageSelection,
-      outAttributes
+      outAttributes,
+      updateImage
       }
   },
   methods: {

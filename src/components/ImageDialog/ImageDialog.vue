@@ -452,7 +452,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, inject, computed, ref, Ref } from 'vue'
+import { defineComponent, inject, ref, Ref } from 'vue'
 import { Editor } from '@tiptap/vue-3'
 import * as InjectionKeys from '../Types/injection-keys'
 import ImageItem from '../Types/image-item'
@@ -540,7 +540,7 @@ export default defineComponent({
         imageBorderWidthUOM.value = 'px'
       }
       imageBorderWidth.value = value + imageBorderWidthUOM.value
-      emit('newBorder', value)
+      // emit('newBorder', value)
       // updateStyle()
     }
     // imageSrcChanged
@@ -569,15 +569,17 @@ export default defineComponent({
       getImageDimensions(value)
     }
     const imageBorderColorChange = (value: string) => {
+      console.log('LINE572@@@@@@@@@@@@@@@@@')
+      console.log(value)
       imageBorderColor.value = value
       borderBottomStyle.value = 'border-bottom: 4px solid ' + value + ';'
-      emit('newBorderColor', value)
+      // emit('newBorderColor', value)
     }
 
     const imageShadowColorChange = (value: string) => {
       imageShadowColor.value = value
       imageShadowColorBottomBorder.value = 'border-bottom: 4px solid ' + value + ';'
-      emit('newBorderColor', value)
+      // emit('newBorderColor', value)
     }
 
     const imageBorderRadiusChange = (value: string) => {
@@ -585,7 +587,7 @@ export default defineComponent({
         imageBorderRadiusUOM.value = 'px'
       }
       imageBorderRadius.value = value + imageBorderRadiusUOM.value
-      emit('newBorder', value)
+      // emit('newBorder', value)
     }
 
     const imageShadowHOffsetChange = (value: string) => {
@@ -692,10 +694,23 @@ export default defineComponent({
         borderShadow = 'box-shadow:' + imageShadowHOffset.value + ' ' + imageShadowVOffset.value + ' ' + imageShadowBlur.value + ' ' + imageShadowSpread.value + ' ' + imageShadowColor.value +  ';'
       }
       const fullStyle = widthStyle + heightStyle + borderStyle + borderRadius + borderShadow
-      console.log('COMPLETE STYLE: ' + fullStyle)
-      if (selectedImage.value !== '') {
-        editor.value.chain().focus().setImage({ src: selectedImage.value, alt: imageAlt.value, title: imageAlt.value, style: fullStyle }).run()
+      // console.log('COMPLETE STYLE: ' + fullStyle)
+      // emit('newBorderColor', value)
+      let getMode = ''
+      if (props.pattributes) {
+        const tAttr = props.pattributes as iImageAttributes
+        getMode = tAttr.mode
       }
+      console.log('################################line 704')
+      console.log(getMode)
+      if (getMode == 'edit') {
+        emit('imagechanged', {src: imageSrc.value, alt: imageAlt.value, title: imageAlt.value, style: fullStyle })
+      } else {
+        if (selectedImage.value !== '') {
+          editor.value.chain().focus().setImage({ src: selectedImage.value, alt: imageAlt.value, title: imageAlt.value, style: fullStyle }).run()
+        }
+      }
+      
       sliders.value = false
     }
 
@@ -832,11 +847,48 @@ export default defineComponent({
       return ((/\.(apng|avif|gif|jpg|jpeg|jfif|pjpeg|pjp|png|svg|webp)$/.exec(inUrl.toLowerCase())) != null)
     }
     const showDialog = () => {
-        console.log('SHOW DIALOG TRIGGERED')
-        console.log('LINE 925@@@@@@@@@@@@@@@@@@')
         if (props.pattributes) {
-          console.log(props.pattributes.mode)
-          console.log(props.pattributes.src)
+          console.log('LINE 836!!!!!!!!!!!!!!!!!!!!!!!!')
+          console.log(props.pattributes)
+          const inAttributes = props.pattributes as iImageAttributes
+          if (props.pattributes.mode == 'edit') {
+            imageSrc.value = inAttributes.src
+            imageAlt.value = inAttributes.alt
+            imageWidth.value = inAttributes.width
+            imageWidthUom.value = inAttributes.widthUom
+            if (inAttributes.widthUom != 'auto') {
+              imageWidthDisabled.value = false
+            }
+            imageHeight.value = inAttributes.height
+            imageHeightUom.value = inAttributes.heightUom
+            if (inAttributes.heightUom != 'auto') {
+              imageHeightDisabled.value = false
+            }
+            imageBorderStyle.value = inAttributes.borderStyle
+            imageBorderColor.value = inAttributes.borderColor
+            imageBorderColorChange(inAttributes.borderColor)
+            imageBorderWidth.value = inAttributes.borderWidth + inAttributes.borderWidthUom
+            imageBorderWidthUOM.value = inAttributes.borderWidthUom
+            imageBorderRadius.value = inAttributes.borderRadius + inAttributes.borderRadiusUom
+            imageBorderRadiusUOM.value = inAttributes.borderRadiusUom
+            if (inAttributes.hOffset != '') {
+              shadowOn.value = 'on'
+              shadowEnabled.value = false
+            } else {
+              shadowOn.value = 'off'
+              shadowEnabled.value = true
+            }
+            imageShadowColor.value = inAttributes.shadowColor
+            imageShadowColorChange(inAttributes.shadowColor)
+            imageShadowHOffset.value = inAttributes.hOffset + inAttributes.hOffsetUom
+            imageShadowHOffsetUOM.value = inAttributes.hOffsetUom
+            imageShadowVOffset.value = inAttributes.vOffset + inAttributes.vOffsetUom
+            imageShadowVOffsetUOM.value = inAttributes.vOffsetUom
+            imageShadowBlur.value = inAttributes.blur + inAttributes.blurUom
+            imageShadowBlurUOM.value = inAttributes.blurUom
+            imageShadowSpread.value = inAttributes.spread + inAttributes.spreadUom
+            imageShadowSpreadUOM.value = inAttributes.spreadUom
+          }
         }
         sliders.value = true
       }

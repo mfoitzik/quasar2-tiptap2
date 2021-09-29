@@ -1,5 +1,5 @@
 const initialContent  = `
-<img src="https://www.mifo.com/images/Training.jpg" style="width:200px;border:4px solid green;box-shadow: inset 60px -16px teal;"></img>
+<img src="https://www.mifo.com/images/Training.jpg" alt="My Alt Text" style="width:200px;border:4px solid green;box-shadow: inset 60px -16px teal;"></img>
 <p>
           This is still the text editor you’re used to, but enriched with node views.
         </p>

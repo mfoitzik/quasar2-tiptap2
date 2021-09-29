@@ -3,3 +3,5 @@ Property 'chain' does not exist on type 'Ref<Editor | undefined>'.Vetur(2339)
 Property 'isActive' does not exist on type 'Ref<Editor | undefined>'.Vetur(2339)
 
 Added publicPath: 'build/assets/Editor', in quasar.conf.js - NEED TO CHANGE FOR LIVE
+
+Can't figure out simngle string prop - child keeps reading empty string - addded mode to pattribute object
