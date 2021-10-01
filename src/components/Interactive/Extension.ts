@@ -1,37 +1,43 @@
 import { Node } from '@tiptap/core'
-import { VueNodeViewRenderer } from '@tiptap/vue-3'
+import { VueNodeViewRenderer, mergeAttributes } from '@tiptap/vue-3'
 import Component from './Component.vue'
 
 export default Node.create({
   name: 'image',
 
-  group: 'block',
+  group: 'inline',
 
   content: 'inline*',
+  inline: true,
+  draggable: true,
 
-  addAttributes() {
-    return {
-      src: {
-        default: null
-      },
-      alt: {
-        default: null
-      }
-    }
-  },
+  // addAttributes() {
+  //   return {
+  //     src: {
+  //       default: null
+  //     },
+  //     alt: {
+  //       default: null
+  //     }
+  //   }
+  // },
 
   parseHTML() {
     return [
       {
-        tag: 'img',
+        tag: 'img'
       },
     ]
   },
 
   renderHTML({ HTMLAttributes }) {
-    console.log('I AM INSIDE EXTENSION')
+    console.log('I AM RENDERING AT LINE 34+++++++++++++++++++++++++++++++++++++++++++++++')
+    console.log(this.options.att)
+    const xb = this.options as Record<string, unknown>
+    console.log(xb.HTMLAttributes)
+    
     console.log(HTMLAttributes)
-    return ['img', HTMLAttributes, 0]
+    return ['img', mergeAttributes(HTMLAttributes), 0]
   },
 
   addNodeView() {
