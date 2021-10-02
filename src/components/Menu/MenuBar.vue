@@ -270,6 +270,51 @@
         </q-btn>
     </q-toolbar>
     <image-dialog :show="imageSelector" @newBorder="testEmit" ref="iDialog" />
+    <q-dialog v-model="linkProperties" style="min-width:400px;">
+      <q-card style="min-width:400px;">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">Link Properties</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+
+        <q-card-section>
+          <div class="row">
+              <div class="col-12">
+                  <q-input v-model="linkHref" label="href"
+                    dense
+                    clearable
+                    class="q-mx-sm" />
+              </div>
+              
+          </div>
+          <div class="row">
+            <div class="col-12">
+                <q-select
+                    v-model="linkTarget"
+                    :options="linkTargetSelections"
+                    label="target"
+                    dense
+                    class="q-mx-sm"
+                />
+            </div>
+            
+          </div>
+          <div class="row">
+              <div class="col-12">
+                  <q-input v-model="linkId" label="id"
+              dense
+                class="q-mx-sm" />
+              </div>
+              
+          </div>
+        </q-card-section>
+        <q-card-actions align="right">
+                <q-btn flat label="Cancel" color="primary" v-close-popup />
+                <q-btn flat label="OK" color="primary" @click="updateLink" />
+              </q-card-actions>
+      </q-card>
+    </q-dialog>
 </template>
 
 <script lang="ts">
@@ -298,14 +343,39 @@ export default defineComponent({
     const fontColor = inject('fontColor') as Ref<string>
     const fontHighlight = inject('fontHighlight') as Ref<string>
     const imageSelector = ref(false)
+    const linkProperties = ref(false)
+    const linkHref = ref('')
+    const linkId = ref('')
+    const linkTarget = ref('_self')
+    const linkTargetSelections = [
+        '_self', '_blank', '_parent', '_top'
+      ]
     fontFamily.value = fontFamilyOptions.value[0]
     fontSize.value = fontSizeOptions.value[0]
     blockType.value = blockTypeOptions.value[0]
     function setLink() {
-        const url = window.prompt('URL')
-        if (url) {
-            editor.value?.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+        // console.log(editor.value?.getAttributes('link'))
+        const getCurrent = editor.value?.getAttributes('link')
+        if (getCurrent.href) {
+            linkHref.value = getCurrent.href as string
+        } else {
+            linkHref.value = ''
         }
+        if (getCurrent.target) {
+            linkTarget.value = getCurrent.target as string
+        } else {
+            linkTarget.value = ''
+        }
+        if (getCurrent.id) {
+            linkId.value = getCurrent.id as string
+        } else {
+            linkId.value = ''
+        }
+        linkProperties.value = true
+        // const url = window.prompt('URL')
+        // if (url) {
+        //     editor.value?.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+        // }
     }
 
     function checkMark(inMark) {
@@ -314,6 +384,16 @@ export default defineComponent({
         } else {
             return false
         }
+    }
+    const updateLink = () => {
+        // console.log('test')
+        if (linkHref.value == '') {
+            editor.value?.commands.unsetLink()
+        } else {
+            // need to figure out how to extend setLink command to add id to parameter: , id: linkId.value
+            editor.value?.chain().focus().extendMarkRange('link').setLink({ href: linkHref.value, target: linkTarget.value }).run()
+        }
+        linkProperties.value = false
     }
     const testEmit = (e) => {
         // console.log('EVENT EMITTED: ' + e)
@@ -432,7 +512,13 @@ export default defineComponent({
         fontHighlight,
         imageSelector,
         testEmit,
-        iDialog
+        iDialog,
+        linkProperties,
+        linkHref, 
+        linkId, 
+        linkTarget, 
+        linkTargetSelections,
+        updateLink
     }
   },
 })

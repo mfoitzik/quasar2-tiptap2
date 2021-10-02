@@ -35,22 +35,24 @@ import fontFamilies from './SelectItems/font-family'
 import fontSizes from './SelectItems/font-size'
 import * as InjectionKeys from './Types/injection-keys'
 import VueComponent from './Interactive/Extension'
+import Gapcursor from '@tiptap/extension-gapcursor'
+
 export default defineComponent({
   components: {
     EditorContent, MenuBar
   },
   setup() {
-    // const CustomImage = Image.extend({
-    //   addAttributes() {
-    // // Return an object with attribute configuration
-    //   return {
-    //     ...this.parent?.(),
-    //     style: {
-    //       default: ''
-    //     }
-    //   }
-    // }
-    // })
+    const CustomLink = Link.extend({
+      addAttributes() {
+        // Return an object with attribute configuration
+        return {
+          ...this.parent?.(),
+          id: {
+            default: '',
+          }
+        }
+      }
+    })
     const editor = useEditor({
       content: initialContent,
       extensions: [
@@ -65,10 +67,11 @@ export default defineComponent({
         TextStyle,
         FontFamily,
         Highlight.configure({ multicolor: true }),
-        Link.configure({openOnClick: false}),
+        CustomLink.configure({openOnClick: false}),
         FontSize,
         FontColor,
         FontBackgroundColor,
+        Gapcursor,
         Image,
         Dropcursor,
         Underline,

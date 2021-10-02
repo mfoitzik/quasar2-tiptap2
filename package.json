@@ -20,6 +20,7 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "@tiptap/extension-font-family": "^2.0.0-beta.13",
+    "@tiptap/extension-gapcursor": "^2.0.0-beta.23",
     "@tiptap/extension-highlight": "^2.0.0-beta.14",
     "@tiptap/extension-image": "^2.0.0-beta.14",
     "@tiptap/extension-link": "^2.0.0-beta.18",

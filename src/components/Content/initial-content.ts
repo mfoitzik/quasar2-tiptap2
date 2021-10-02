@@ -1,6 +1,6 @@
 const initialContent  = `
 <img src="https://www.mifo.com/images/Training.jpg" alt="My Alt Text" style="width:200px;border:4px solid green;box-shadow: inset 60px -16px teal;"></img>
-<img src="https://www.mifo.com/images/Training.jpg" alt="My Alt Text" style="border: none"></img>
+<a href="https://www.cnn.com"><img src="https://www.mifo.com/images/Training.jpg" alt="My Alt Text" style="border: none"></img></a>
 <p>
           This is still the text editor you’re used to, but enriched with node views.
         </p>
@@ -10,7 +10,7 @@ const initialContent  = `
         <p>
           Did you see that? That’s a Vue component. We are really living in the future.
         </p>
-<p>Basic WYSIWYG Editor using TQuasar 2 / Vue 3 / TipTap 2 Configured for Typescript and Vue's Composition API</p>
+<p>Basic WYSIWYG <a href="https://www.mifo.com" target="_blank" id="targetid">Editor</a> using TQuasar 2 / Vue 3 / TipTap 2 Configured for Typescript and Vue's Composition API</p>
 <h4>What this project does</h4>
 
 

@@ -478,14 +478,14 @@
                 />
               </div>
             </div>
-            <div class="row">
-              <q-separator />
+            
+              
 
               <q-card-actions align="right">
                 <q-btn flat label="Cancel" color="primary" v-close-popup />
                 <q-btn flat label="OK" color="primary" @click="insertImage" />
               </q-card-actions>
-            </div>
+            
           </q-item-section>
         </q-item>
       </q-card>
@@ -504,13 +504,12 @@
            <div class="icenter">{{n.url.split('/').pop()}}</div>
           </div>
         </q-card-section>
-
         <q-separator />
-
         <q-card-actions align="right">
           <q-btn flat label="Cancel" color="primary" v-close-popup />
           <q-btn flat label="Select" color="primary" @click="selectImage" />
-        </q-card-actions>
+          </q-card-actions>
+        
       </q-card>
     </q-dialog>
   </div>
