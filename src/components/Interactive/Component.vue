@@ -1,11 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 <template>
   
-  <node-view-wrapper as="p" class="vue-componentx">
-    <node-view-content class="content" />
+  <node-view-wrapper class="vue-componentx">
+    <node-view-content class="content" contenteditable="true" />
+      <div class="iSettings" ref="iDrag" contenteditable="false"
+        draggable="true"
+        data-drag-handle data-dragid="1" ><q-icon name="open_with" class="iSettingsIcon" data-dragid="1" /></div>
       <div class="iSettings" ref="iSettings" @mousedown = "iStop" @click="showSettings"><q-icon name="settings" class="iSettingsIcon" /></div>
       <div class="iHandle" ref="iHandle" @mousedown="beginResize"></div>
-      <div class="iSpan" ref="iWrapper"><img @mousedown = "iStop" @click="iClick" :src="imageSrc" :style="iStyle" :alt="iAlt" ref="iMain" /></div>
+      <div class="iSpan" ref="iWrapper"><img @mousedown = "iStop" @click="iClick" :src="imageSrc" :style="iStyle" :alt="iAlt" ref="iMain" draggable="true" @dragstart="testdrag" /></div>
       <div><image-dialog ref="iDialog" @imagechanged="updateImage" :pattributes="outAttributes" /></div>
+      <!--<button @click="testbtn" type="button">test</button>-->
   </node-view-wrapper>
 </template>
 
@@ -34,6 +39,8 @@ export default defineComponent({
     const iHandle =ref<HTMLDivElement>()
     const iWrapper = ref<HTMLDivElement>()
     const iSettings = ref<HTMLDivElement>()
+    const iDrag = ref<HTMLDivElement>()
+    const mainWrapper = ref('')
     const sliders = ref(false)
     const imageConstrainProportions = ref(true)
     const imageSrc = ref('')
@@ -92,7 +99,25 @@ export default defineComponent({
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       iAlt.value = e.alt
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      iStyle.value = e.style      
+      iStyle.value = e.style 
+
+      // update node props!
+      if (props.updateAttributes) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        props.updateAttributes({style: e.style, src: e.src, alt: e.alt})
+      }
+      
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+      if (e.style.indexOf('float: left') >= 0 && iSettings?.value?.parentElement) {
+        iSettings.value.parentElement.style.float = 'left'
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+      } else if (e.style.indexOf('float: right') >= 0 && iSettings?.value?.parentElement) {
+        iSettings.value.parentElement.style.float = 'right'
+      } else {
+        if (iSettings?.value?.parentElement) {
+          iSettings.value.parentElement.style.float = 'none'
+        }
+      }
     }
     
     const tbtn = () => {
@@ -180,13 +205,15 @@ export default defineComponent({
         }
        
         const tBound = iMain.value.getBoundingClientRect()
-        if (iHandle.value && iSettings.value) {
+        if (iHandle.value && iSettings.value && iDrag.value) {
           const hBound = iHandle.value.getBoundingClientRect()
           iHandle.value.style.left = (tBound.right - (hBound.width / 2)).toString() + 'px'
           iHandle.value.style.top = (tBound.bottom - (hBound.height / 2)).toString() + 'px'
           const sBound = iSettings.value.getBoundingClientRect()
           iSettings.value.style.left = (tBound.right - sBound.width).toString() + 'px'
           iSettings.value.style.top = (tBound.top).toString() + 'px'
+          iDrag.value.style.left = (tBound.left).toString() + 'px'
+          iDrag.value.style.top = (tBound.top).toString() + 'px'
         }
         
       }
@@ -204,7 +231,13 @@ export default defineComponent({
       iHandle.value?.classList.add('iHandleShow')
       iWrapper.value?.classList.add('iSpanBorder')
       iSettings.value?.classList.add('iSettingsShow')
-      if (iHandle.value && iSettings.value && iMain.value) {
+      iDrag.value?.classList.add('iSettingsShow')
+      const dCursor = iDrag.value?.style
+      if (dCursor) {
+        dCursor.cursor = 'grab'
+      }
+      
+      if (iHandle.value && iSettings.value && iMain.value && iDrag.value) {
         const tBound = iMain.value.getBoundingClientRect()
         // console.log(tBound.bottom)
         // console.log(tBound.right)
@@ -215,6 +248,8 @@ export default defineComponent({
         iHandle.value.style.top = (tBound.bottom - (hBound.height / 2)).toString() + 'px'
         iSettings.value.style.left = (tBound.right - sBound.width).toString() + 'px'
         iSettings.value.style.top = (tBound.top).toString() + 'px'
+        iDrag.value.style.left = (tBound.left).toString() + 'px'
+        iDrag.value.style.top = (tBound.top).toString() + 'px'
         // console.log(tBound.width)
       }
       
@@ -264,6 +299,13 @@ export default defineComponent({
       // sliders.value = true
       const outObj = new ImageAttributes
       if (iMain.value) {
+        console.log('LINE 277%%%%%%%%%%%%%%%%%')
+        console.log(iMain.value.style.float)
+        if (iMain.value.style.float == 'left' || iMain.value.style.float == 'right') {
+          outObj.float = iMain.value.style.float
+        } else {
+          outObj.float = 'none'
+        }
         const getShadowComponents = parseBoxShadow(iMain.value.style.boxShadow)
         outObj.src = iMain.value.src
         outObj.alt = iMain.value.alt
@@ -271,11 +313,15 @@ export default defineComponent({
         outObj.widthUom = iMain.value.style.width.replace(/[0-9.\-]/g,'')
         outObj.height = (isNaN(parseFloat(iMain.value.style.height))) ? '' : parseFloat(iMain.value.style.height).toString()
         outObj.heightUom = iMain.value.style.height.replace(/[0-9.\-]/g,'')
+        console.log('LINE 312*****: ' + iMain.value.style.borderStyle)
         outObj.borderStyle = iMain.value.style.borderStyle
         outObj.borderColor = iMain.value.style.borderColor
+        console.log('LINE 315++++++++++++++: ' + iMain.value.style.borderWidth + '++++++: ' + iMain.value.style.borderColor)
         outObj.borderWidth = (isNaN(parseFloat(iMain.value.style.borderWidth))) ? '' : parseFloat(iMain.value.style.borderWidth).toString()
         outObj.borderWidthUom = iMain.value.style.borderWidth.replace(/[0-9.\-]/g,'')
         outObj.borderRadius = (isNaN(parseFloat(iMain.value.style.borderRadius))) ? '' : parseFloat(iMain.value.style.borderRadius).toString()
+        outObj.margin = (isNaN(parseFloat(iMain.value.style.margin))) ? '' : parseFloat(iMain.value.style.margin).toString()
+        outObj.marginUom = iMain.value.style.margin.replace(/[0-9.\-]/g,'')
         console.log('LINE268!!!!!')
         console.log(parseFloat(getShadowComponents.hOffset))
         outObj.borderRadiusUom = iMain.value.style.borderRadius.replace(/[0-9.\-]/g,'')
@@ -299,8 +345,10 @@ export default defineComponent({
       outObj.mode = 'edit'
       if (iDialog.value){
         for (let k in outObj) {
-          outAttributes.value[k] = outObj[k] as string
+          outAttributes.value[k] = (outObj[k] as string).replace('medium', '').replace('initial', '').replace('currentcolor', '')
         }
+        console.log('LINE343================================')
+        console.log(outAttributes)
         iDialog.value.showDialog()
       }
 
@@ -311,34 +359,49 @@ export default defineComponent({
       // iStyle.value = 'border:4px solid red;'
     }
     onMounted(() => {
-      console.log('Component is mounted!')
-      console.log(props?.node?.attrs)
-      console.log('AFTER Component is mounted!')
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       imageSrc.value = props?.node?.attrs.src
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       iAlt.value = props?.node?.attrs.alt
       
-      console.log('I AM GOING TO SET STYLE')
+      // console.log('I AM GOING TO SET STYLE')
       console.log(props?.node?.attrs.style)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       iStyle.value = props?.node?.attrs.style
+      const getStyleProps = props?.node?.attrs.style as string
+      if (getStyleProps) {
+        if (getStyleProps.indexOf('float: left') >= 0 && iSettings?.value?.parentElement) {
+          iSettings.value.parentElement.style.float = 'left'
+        } else if (getStyleProps.indexOf('float: right') >= 0 && iSettings?.value?.parentElement) {
+          iSettings.value.parentElement.style.float = 'right'
+        } else {
+          if (iSettings?.value?.parentElement) {
+            iSettings.value.parentElement.style.float = 'none'
+          }
+        }
+      }
+
+      
+      
       // props.updateAttributes({
       //   src: 
       // })
       //const tBound = iMain.value.getBoundingClientRect()
-      console.log('LINE 39')
-      console.log(iMain?.value?.src)
+      // console.log('LINE 39')
+      // console.log(iMain?.value?.src)
       document.documentElement.addEventListener('mousedown', function(event){
+        const dTarg = event.target as HTMLElement
         iHandle.value?.classList.remove('iHandleShow')
         iWrapper.value?.classList.remove('iSpanBorder')
         iSettings.value?.classList.remove('iSettingsShow')
-        console.log(event)
-        }, false)
+        if (!dTarg.getAttribute('data-dragid')) {
+          iDrag.value?.classList.remove('iSettingsShow')
+        }
+      }, false)
       const getEditor = window.document.getElementsByClassName('ProseMirror')[0]
       if(getEditor){
         getEditor.addEventListener('scroll', function(){
-          if (iMain.value && iHandle.value && iSettings.value){
+          if (iMain.value && iHandle.value && iSettings.value && iDrag.value){
             const tBound = iMain.value.getBoundingClientRect()
             const hBound = iHandle.value.getBoundingClientRect()
             iHandle.value.style.left = (tBound.right - (hBound.width / 2)).toString() + 'px'
@@ -346,15 +409,28 @@ export default defineComponent({
             const sBound = iSettings.value.getBoundingClientRect()
             iSettings.value.style.left = (tBound.right - sBound.width).toString() + 'px'
             iSettings.value.style.top = (tBound.top).toString() + 'px'
+            iDrag.value.style.left = (tBound.left).toString() + 'px'
+            iDrag.value.style.top = (tBound.top).toString() + 'px'
           }
         }, false)
       }
       
     })
+    const testdrag = () => {
+      console.log('TEST DRAG STARTED!')
+    }
 
-    return { tbtn, tbtnx, iStyle, iMain, iHandle, imageSrc, iWrapper, iSettings, iClick, iStop, beginResize, showSettings,
+    const testexternal = () => {
+      return 'THIS IS A TEST'
+    }
+
+    const testbtn = () => {
+      console.log(iMain?.value?.style.border)
+      console.log(props.node?.attrs.style)
+    }
+    return { tbtn, testexternal, testbtn, tbtnx, iStyle, iMain, iHandle, imageSrc, iWrapper, iSettings, iDrag, iClick, iStop, beginResize, showSettings,
       sliders,
-
+      testdrag,
       slide,
       slideVol,
       slideAlarm,
@@ -402,7 +478,8 @@ export default defineComponent({
       iDialog,
       imageSelection,
       outAttributes,
-      updateImage
+      updateImage,
+      mainWrapper
       }
   },
   methods: {
@@ -415,6 +492,10 @@ export default defineComponent({
     }
   },
   props: nodeViewProps,
+  updateAttributes: {
+    type: Function,
+    required: true,
+  },
 })
 </script>
 
@@ -509,4 +590,5 @@ export default defineComponent({
 .color-picker {
   max-width: 250px;
 }
+
 </style>

@@ -122,7 +122,71 @@
             </div>
           </div>
         </q-card-section>
-
+        <div class="row">
+          <div class="col-3">
+          <q-item-label header>Float</q-item-label>
+          <q-item dense>
+            <q-item-section>
+              <div class="row">
+                <div class="col-6">
+                  <q-btn-toggle
+                    v-model="float"
+                    toggle-color="primary"
+                    size="sm"
+                    :options="[
+                      { label: 'None', value: 'none' },
+                      { label: 'Left', value: 'left' },
+                      { label: 'Right', value: 'right' },
+                    ]"
+                  />
+                </div>
+              </div>
+            </q-item-section>
+          </q-item>
+        </div>
+        <div class="col-9">
+          <q-item-label header>Margin</q-item-label>
+          <q-item dense>
+            <q-item-section>
+              <div class="row">
+              <div class="col-3">
+                <q-input
+                  v-model="imageMargin"
+                  label="Margin"
+                  stack-label
+                  dense
+                  class="q-mx-sm"
+                />
+              </div>
+              <div class="col-2">
+                <q-select
+                  v-model="imageMarginUom"
+                  :options="imageUOMSelections"
+                  label="Units"
+                  dense
+                  @update:model-value = "v => changeImageMarginUom(v)"
+                  class="q-mx-sm"
+                />
+              </div>
+              <div class="col-7 q-pt-lg">
+                <q-slider
+                  color="teal"
+                  v-model="imageMarginNumber"
+                  @update:model-value="imageMarginChange"
+                  :min="0"
+                  :max="100"
+                  dense
+                  class="q-mx-md"
+                  style="width: auto"
+                />
+              </div>
+            </div>
+            </q-item-section>
+          </q-item>
+        </div>
+        </div>
+        
+        
         <q-item-label header>Border</q-item-label>
         <q-item dense>
           <q-item-section>
@@ -499,6 +563,8 @@ export default defineComponent({
     const imageBoxShadow = ref('')
     const imagePadding = ref('')
     const imageMargin = ref('')
+    const imageMarginUom = ref('')
+    const imageMarginNumber = ref(0)
     const shadowOn = ref('off')
     const shadowEnabled = ref(true)
     const imageBorderRadiusUOM = ref('')
@@ -531,6 +597,8 @@ export default defineComponent({
     const slideAlarm = ref(56)
     const slideVibration = ref(63)
     const imageSelector = ref(false)
+
+    const float = ref('none')
     
     const imageBorderChange = (value: string) => {
       if (imageBorderStyle.value == 'none') {
@@ -540,6 +608,15 @@ export default defineComponent({
         imageBorderWidthUOM.value = 'px'
       }
       imageBorderWidth.value = value + imageBorderWidthUOM.value
+      // emit('newBorder', value)
+      // updateStyle()
+    }
+
+    const imageMarginChange = (value: string) => {
+      if (imageMarginUom.value == '') {
+        imageMarginUom.value = 'px'
+      }
+      imageMargin.value = value + imageMarginUom.value
       // emit('newBorder', value)
       // updateStyle()
     }
@@ -649,6 +726,22 @@ export default defineComponent({
       let borderStyle = ''
       let borderRadius = ''
       let borderShadow = ''
+      let imageFloat = ''
+      let marginStyle = ''
+
+      if (float.value == 'left') {
+        imageFloat = 'float: left;'
+      } else if (float.value == 'right') {
+        imageFloat = 'float: right;'
+      } else {
+        imageFloat = 'float: none;'
+      }
+
+      if (imageMargin.value == '' || imageMargin.value == 'none') {
+        marginStyle = 'margin: none;'
+      } else {
+        marginStyle = 'margin: ' + imageMargin.value
+      }
 
       if (imageWidthUom.value == 'auto') {
         widthStyle = 'width:auto;'
@@ -693,7 +786,7 @@ export default defineComponent({
         // end check for blanks
         borderShadow = 'box-shadow:' + imageShadowHOffset.value + ' ' + imageShadowVOffset.value + ' ' + imageShadowBlur.value + ' ' + imageShadowSpread.value + ' ' + imageShadowColor.value +  ';'
       }
-      const fullStyle = widthStyle + heightStyle + borderStyle + borderRadius + borderShadow
+      const fullStyle = widthStyle + heightStyle + borderStyle + borderRadius + borderShadow + imageFloat + marginStyle
       // console.log('COMPLETE STYLE: ' + fullStyle)
       // emit('newBorderColor', value)
       let getMode = ''
@@ -701,8 +794,6 @@ export default defineComponent({
         const tAttr = props.pattributes as iImageAttributes
         getMode = tAttr.mode
       }
-      console.log('################################line 704')
-      console.log(getMode)
       if (getMode == 'edit') {
         emit('imagechanged', {src: imageSrc.value, alt: imageAlt.value, title: imageAlt.value, style: fullStyle })
       } else {
@@ -723,7 +814,6 @@ export default defineComponent({
     }
 
     const changeImageWidthUom = (inValue: string) => {
-      console.log('LINE 611: ' + inValue)
       if (inValue == 'auto') {
         imageWidthDisabled.value = true
       } else {
@@ -753,6 +843,18 @@ export default defineComponent({
         imageBorderWidth.value = imageBorderWidth.value.replace('pc', '')
         imageBorderWidth.value = imageBorderWidth.value.replace('pt', '')
         imageBorderWidth.value = imageBorderWidth.value + inValue
+      }
+    }
+    const changeImageMarginUom = (inValue: string) => {
+      // console.log('LINE 631: ' + inValue)
+      if (imageMargin.value != '') {
+        imageMargin.value = imageMargin.value.replace('px', '')
+        imageMargin.value = imageMargin.value.replace('%', '')
+        imageMargin.value = imageMargin.value.replace('rem', '')
+        imageMargin.value = imageMargin.value.replace('em', '')
+        imageMargin.value = imageMargin.value.replace('pc', '')
+        imageMargin.value = imageMargin.value.replace('pt', '')
+        imageMargin.value = imageMargin.value + inValue
       }
     }
     const changeImageBorderRadiusUom = (inValue: string) => {
@@ -852,6 +954,13 @@ export default defineComponent({
           console.log(props.pattributes)
           const inAttributes = props.pattributes as iImageAttributes
           if (props.pattributes.mode == 'edit') {
+            if (inAttributes.float == 'left') {
+              float.value = 'left'
+            } else if (inAttributes.float == 'right') {
+              float.value = 'right'
+            } else {
+              float.value = 'none'
+            }
             imageSrc.value = inAttributes.src
             imageAlt.value = inAttributes.alt
             imageWidth.value = inAttributes.width
@@ -869,6 +978,8 @@ export default defineComponent({
             imageBorderColorChange(inAttributes.borderColor)
             imageBorderWidth.value = inAttributes.borderWidth + inAttributes.borderWidthUom
             imageBorderWidthUOM.value = inAttributes.borderWidthUom
+            imageMargin.value = inAttributes.margin + inAttributes.marginUom
+            imageMarginUom.value = inAttributes.marginUom
             imageBorderRadius.value = inAttributes.borderRadius + inAttributes.borderRadiusUom
             imageBorderRadiusUOM.value = inAttributes.borderRadiusUom
             if (inAttributes.hOffset != '') {
@@ -921,6 +1032,10 @@ export default defineComponent({
       imageBoxShadow,
       imagePadding,
       imageMargin,
+      imageMarginUom,
+      imageMarginNumber,
+      changeImageMarginUom,
+      imageMarginChange,
       imageConstrainProportions,
       imageBorderWidthUOM,
       imageBorderStyleSelections,
@@ -979,7 +1094,8 @@ export default defineComponent({
       getPattributes,
       getMode,
       newMode,
-      showDialog
+      showDialog,
+      float
       }
   },
     props: {

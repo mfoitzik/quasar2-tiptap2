@@ -27,7 +27,7 @@ export const Image = Node.create<ImageOptions>({
   name: 'image',
 
   defaultOptions: {
-    inline: false,
+    inline: true,
     HTMLAttributes: {},
   },
 
@@ -61,7 +61,7 @@ export const Image = Node.create<ImageOptions>({
   parseHTML() {
     return [
       {
-        tag: 'img[src]',
+        tag: 'img',
       },
     ]
   },

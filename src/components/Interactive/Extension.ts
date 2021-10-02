@@ -31,12 +31,6 @@ export default Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    console.log('I AM RENDERING AT LINE 34+++++++++++++++++++++++++++++++++++++++++++++++')
-    console.log(this.options.att)
-    const xb = this.options as Record<string, unknown>
-    console.log(xb.HTMLAttributes)
-    
-    console.log(HTMLAttributes)
     return ['img', mergeAttributes(HTMLAttributes), 0]
   },
 

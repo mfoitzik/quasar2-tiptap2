@@ -21,7 +21,10 @@ export interface iImageAttributes {
     blur: string,
     blurUom: string,
     spread: string,
-    spreadUom: string
+    spreadUom: string,
+    float: string,
+    margin: string,
+    marginUom: string
   }
 
   export class ImageAttributes implements iImageAttributes {
@@ -48,6 +51,9 @@ export interface iImageAttributes {
     blurUom = '';
     spread = '';
     spreadUom = '';
+    float = '';
+    margin = '';
+    marginUom = '';
     constructor(){
         // comment here to eliminate empty constructor eslint error
     }

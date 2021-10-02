@@ -1,5 +1,6 @@
 <template>
   <div class="row editor-wrapper">
+    <button type="button" @click="testbtn">test content</button>
     <menu-bar class="editor-menu" />
     <editor-content :editor="editor" />
   </div>
@@ -149,6 +150,10 @@ export default defineComponent({
     const setImageSelections = (val: imageItem[]) => {
         imageSelections.value = val
     }
+
+    const testbtn = () => {
+      console.log(editor.value?.schema)
+    }
    
     provide(InjectionKeys.editorKey, editor)
     provide(InjectionKeys.fontFamilyKey, fontFamily)
@@ -160,7 +165,7 @@ export default defineComponent({
     provide(InjectionKeys.imageSelectionsKey, imageSelections)
     provide('fontColor', fontColor)
     provide('fontHighlight', fontHighlight)
-    return { editor, getContent, setContent, setImageSelections, fontFamilyOptions, fontFamily, fontSize, fontSizeOptions, blockType, blockTypeOptions, fontColor, fontHighlight, imageSelections }
+    return { testbtn, editor, getContent, setContent, setImageSelections, fontFamilyOptions, fontFamily, fontSize, fontSizeOptions, blockType, blockTypeOptions, fontColor, fontHighlight, imageSelections }
   },
   methods: {
     getMoreContent() {
