@@ -1,21 +1,7 @@
 const initialContent  = `
 <img src="https://www.mifo.com/images/Training.jpg" alt="My Alt Text" style="width:200px;border:4px solid green;box-shadow: inset 60px -16px teal;"></img>
-<a href="https://www.cnn.com"><img src="https://www.mifo.com/images/Training.jpg" alt="My Alt Text" style="border: none"></img></a>
-<p>
-          This is still the text editor you’re used to, but enriched with node views.
-        </p>
-
-          <p>This is editable.</p>
-        </img>
-        <p>
-          Did you see that? That’s a Vue component. We are really living in the future.
-        </p>
-<p>Basic WYSIWYG <a href="https://www.mifo.com" target="_blank" id="targetid">Editor</a> using TQuasar 2 / Vue 3 / TipTap 2 Configured for Typescript and Vue's Composition API</p>
-<h4>What this project does</h4>
-
-
 <p>This project basically implements the basic examples that are on the TipTap site at [<a href="https://www.tiptap.dev/examples/default">https://www.tiptap.dev/examples/default</a>] within a Quasar Framework project.</p>
-<p>I have added a few custom extensions to provide the capability of Font Color, Font Size and Font Background Color.</p>
+<p>I have added a few custom extensions to provide the capability of Font Color, Font Size and Font Background Color. Additionally, I added an interactive node for image property management.</p>
 <p>This is just meant to be a starter.</p>
 <h4>IMPORTANT DISCLAIMER</h4>
 <p>To get this to work I had to add a resolutions property to the package.json file telling it to use vue 3.1.4. Because of this I believe you need to use yarn instead of npm to install the dependencies (I do not think that npm looks at the resolutions property). Without adding this the editor was not displaying.</p>

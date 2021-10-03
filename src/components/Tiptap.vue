@@ -1,6 +1,6 @@
 <template>
   <div class="row editor-wrapper">
-    <button type="button" @click="testbtn">test content</button>
+    <!--<button type="button" @click="testbtn">test content</button>-->
     <menu-bar class="editor-menu" />
     <editor-content :editor="editor" />
   </div>
@@ -42,17 +42,6 @@ export default defineComponent({
     EditorContent, MenuBar
   },
   setup() {
-    const CustomLink = Link.extend({
-      addAttributes() {
-        // Return an object with attribute configuration
-        return {
-          ...this.parent?.(),
-          id: {
-            default: '',
-          }
-        }
-      }
-    })
     const editor = useEditor({
       content: initialContent,
       extensions: [
@@ -67,7 +56,7 @@ export default defineComponent({
         TextStyle,
         FontFamily,
         Highlight.configure({ multicolor: true }),
-        CustomLink.configure({openOnClick: false}),
+        Link.configure({openOnClick: false}),
         FontSize,
         FontColor,
         FontBackgroundColor,

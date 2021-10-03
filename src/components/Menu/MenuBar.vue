@@ -300,14 +300,6 @@
             </div>
             
           </div>
-          <div class="row">
-              <div class="col-12">
-                  <q-input v-model="linkId" label="id"
-              dense
-                class="q-mx-sm" />
-              </div>
-              
-          </div>
         </q-card-section>
         <q-card-actions align="right">
                 <q-btn flat label="Cancel" color="primary" v-close-popup />
@@ -345,7 +337,6 @@ export default defineComponent({
     const imageSelector = ref(false)
     const linkProperties = ref(false)
     const linkHref = ref('')
-    const linkId = ref('')
     const linkTarget = ref('_self')
     const linkTargetSelections = [
         '_self', '_blank', '_parent', '_top'
@@ -365,11 +356,6 @@ export default defineComponent({
             linkTarget.value = getCurrent.target as string
         } else {
             linkTarget.value = ''
-        }
-        if (getCurrent.id) {
-            linkId.value = getCurrent.id as string
-        } else {
-            linkId.value = ''
         }
         linkProperties.value = true
         // const url = window.prompt('URL')
@@ -515,7 +501,6 @@ export default defineComponent({
         iDialog,
         linkProperties,
         linkHref, 
-        linkId, 
         linkTarget, 
         linkTargetSelections,
         updateLink

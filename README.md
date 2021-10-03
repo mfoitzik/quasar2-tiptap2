@@ -10,7 +10,7 @@ This project basically implements the basic examples that are on the TipTap site
 
 The project uses Vue 3, the composition API and Typescript.
 
-I have added a few custom extensions to provide the capability of Font Color, Font Size and Font Background Color.
+I have added a few custom extensions to provide the capability of Font Color, Font Size and Font Background Color. Additionally, I added an interactive node for image property management.
 
 This is just meant to be a starter.
 
