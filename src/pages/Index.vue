@@ -1,6 +1,6 @@
 <template>
   <q-page class="">
-    <!--<button type="button" @click="consolehtml">TEST</button><button type="button" @click="testset">TESTSET</button><button type="button" @click="testimageset">TESTIMAGES</button><button type="button" @click="testparse">TESTPARSE</button>-->
+    <button type="button" @click="consolehtml">TEST</button><button type="button" @click="testset">TESTSET</button><button type="button" @click="testimageset">TESTIMAGES</button><button type="button" @click="testparse">TESTPARSE</button>
     <tip-tap ref="maineditor" />
   </q-page>
 </template>

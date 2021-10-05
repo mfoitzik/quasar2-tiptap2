@@ -31,9 +31,12 @@ export default Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
+    console.log('LINE 34)))))))))))))))))))))))')
+    // console.log(HTMLAttributes['href'])
+    console.log(HTMLAttributes)
     return ['img', mergeAttributes(HTMLAttributes), 0]
   },
-
+  
   addNodeView() {
     return VueNodeViewRenderer(Component)
   },

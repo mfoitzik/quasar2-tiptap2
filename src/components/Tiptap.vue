@@ -35,6 +35,7 @@ import fontFamilies from './SelectItems/font-family'
 import fontSizes from './SelectItems/font-size'
 import * as InjectionKeys from './Types/injection-keys'
 import VueComponent from './Interactive/Extension'
+import testComponent from './Interactive/TestExtension'
 import Gapcursor from '@tiptap/extension-gapcursor'
 
 export default defineComponent({
@@ -65,6 +66,7 @@ export default defineComponent({
         Dropcursor,
         Underline,
         VueComponent,
+        testComponent
       ],
       autofocus: true,
       onSelectionUpdate({ editor }) {

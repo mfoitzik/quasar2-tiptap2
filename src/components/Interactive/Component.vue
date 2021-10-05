@@ -8,7 +8,7 @@
         data-drag-handle data-dragid="1" ><q-icon name="open_with" class="iSettingsIcon" data-dragid="1" /></div>
       <div class="iSettings" ref="iSettings" @mousedown = "iStop" @click="showSettings"><q-icon name="settings" class="iSettingsIcon" /></div>
       <div class="iHandle" ref="iHandle" @mousedown="beginResize"></div>
-      <div class="iSpan" ref="iWrapper"><img @mousedown = "iStop" @click="iClick" :src="imageSrc" :style="iStyle" :alt="iAlt" ref="iMain" draggable="true" @dragstart="testdrag" /></div>
+      <div class="iSpan" ref="iWrapper"><img @mousedown = "iStop" @click="iClick" :src="imageSrc" :style="iStyle" :alt="iAlt" :href="iHref" ref="iMain" draggable="true" @dragstart="testdrag" /></div>
       <div><image-dialog ref="iDialog" @imagechanged="updateImage" :pattributes="outAttributes" /></div>
       <!--<button @click="testbtn" type="button">test</button>-->
   </node-view-wrapper>
@@ -33,6 +33,7 @@ export default defineComponent({
     const iDialog = ref<imageDialog>()
     const iStyle = ref('')
     const iAlt = ref('')
+    const iHref = ref('')
     const imageSelection = ref([])
     const outAttributes = ref<iImageAttributes>(new ImageAttributes)
     const iMain = ref<HTMLImageElement>()
@@ -100,6 +101,8 @@ export default defineComponent({
       iAlt.value = e.alt
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       iStyle.value = e.style 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      iHref.value = e.href
 
       // update node props!
       if (props.updateAttributes) {
@@ -363,6 +366,8 @@ export default defineComponent({
       imageSrc.value = props?.node?.attrs.src
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       iAlt.value = props?.node?.attrs.alt
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      iHref.value = props?.node?.attrs.href
       
       // console.log('I AM GOING TO SET STYLE')
       console.log(props?.node?.attrs.style)
@@ -475,6 +480,7 @@ export default defineComponent({
       setBorderStyle,
       imageSelector,
       iAlt,
+      iHref,
       iDialog,
       imageSelection,
       outAttributes,
