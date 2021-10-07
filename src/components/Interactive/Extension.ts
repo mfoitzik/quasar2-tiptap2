@@ -23,6 +23,7 @@ export default Node.create({
   // },
 
   parseHTML() {
+    console.log()
     return [
       {
         tag: 'img'
@@ -33,7 +34,7 @@ export default Node.create({
   renderHTML({ HTMLAttributes }) {
     console.log('LINE 34)))))))))))))))))))))))')
     // console.log(HTMLAttributes['href'])
-    console.log(HTMLAttributes)
+    console.log(this.parent)
     return ['img', mergeAttributes(HTMLAttributes), 0]
   },
   

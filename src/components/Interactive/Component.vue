@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 <template>
   
-  <node-view-wrapper class="vue-componentx">
-    <node-view-content class="content" contenteditable="true" />
+  <node-view-wrapper as="span" class="vue-componentx" ref="vueWrapper">
+    <node-view-content as="span" class="content" contenteditable="false" />
       <div class="iSettings" ref="iDrag" contenteditable="false"
         draggable="true"
         data-drag-handle data-dragid="1" ><q-icon name="open_with" class="iSettingsIcon" data-dragid="1" /></div>
@@ -10,13 +10,15 @@
       <div class="iHandle" ref="iHandle" @mousedown="beginResize"></div>
       <div class="iSpan" ref="iWrapper"><img @mousedown = "iStop" @click="iClick" :src="imageSrc" :style="iStyle" :alt="iAlt" :href="iHref" ref="iMain" draggable="true" @dragstart="testdrag" /></div>
       <div><image-dialog ref="iDialog" @imagechanged="updateImage" :pattributes="outAttributes" /></div>
-      <!--<button @click="testbtn" type="button">test</button>-->
+      <button @click="testbtn" type="button">test</button>
   </node-view-wrapper>
 </template>
 
 <script lang="ts">
 import { NodeViewWrapper, NodeViewContent, nodeViewProps} from '@tiptap/vue-3'
-import { defineComponent, onMounted, ref } from 'vue'
+import { Editor } from '@tiptap/vue-3';
+import * as InjectionKeys from '../Types/injection-keys'
+import { defineComponent, onMounted, inject, Ref, ref } from 'vue'
 import imageDialog from '../ImageDialog/ImageDialog.vue'
 import {ImageAttributes, iImageAttributes} from '../Types/image-attributes'
 export default defineComponent({
@@ -25,11 +27,12 @@ export default defineComponent({
     NodeViewContent,
     imageDialog
   },
-  setup(props) {
+  setup(props, { emit }) {
     interface imageDialog {
         pattributes: ImageAttributes
         showDialog: () => void
     }
+    const editor = inject(InjectionKeys.editorKey) as Ref<Editor>
     const iDialog = ref<imageDialog>()
     const iStyle = ref('')
     const iAlt = ref('')
@@ -40,6 +43,7 @@ export default defineComponent({
     const iHandle =ref<HTMLDivElement>()
     const iWrapper = ref<HTMLDivElement>()
     const iSettings = ref<HTMLDivElement>()
+    const vueWrapper = ref<HTMLDivElement>()
     const iDrag = ref<HTMLDivElement>()
     const mainWrapper = ref('')
     const sliders = ref(false)
@@ -228,8 +232,99 @@ export default defineComponent({
       document.documentElement.removeEventListener('mouseup', endResizeDrag, false)
     }
 
-    const iClick = (e: MouseEvent) => {
+    const iClick = (e: Event) => {
+      // console.log(props.node?.isInline)
+      // console.log(props.node?.parent)
+      // props.extension?.
+      // console.log(editor.value?.isActive('image'))
+      // console.log(JSON.stringify(props.node))
+      // console.log(JSON.stringify(props.node?.marks))
+      
+      // props.editor?.commands.unsetMark('link')
+      // props.editor?.commands.setMark('link',{href:'#22222',target:'_blank'})
+      // props.node.marks.push({'type':'link','attrs':{'href':'#22222','target':'_blank'}})
+      // props.editor?.commands.setMark('link',{href:'#22222',target:'_blank'})
+      if (props.getPos) {
+        // console.log(props.getPos())
+        editor.value?.commands.setNodeSelection(props.getPos())
+        // editor.value?.commands.setMark('link', {href: '#test123isitworking'})
+        // editor.value?.commands.insertContentAt(props.getPos() + 1, 'FUCK!')
+        // editor.value?.commands.selectParentNode()
+        // editor.value?.commands.selectParentNode()
+        // editor.value?.commands.deleteSelection()
+        //editor.value?.commands.setMark('link',{href:'#22222',target:'_blank'})
+        // editor.value?.commands.joinBackward()
+        // editor.value?.chain().focus().extendMarkRange('link').setLink({ href: '#123', target: '_blank' }).run()
+        // editor.value?.commands.deleteSelection()
+        // editor.value?.commands.wrapIn('link', {href:'#23'})
+        // editor.value?.commands.setMark('link', {href: '#test123'})
+        // editor.value?.commands.deleteNode('image')
+      }
+      // if (props.editor) {
+      //   props.editor.commands.deleteSelection()
+      // }
       // iStyle.value = ''
+      // console.log('line 233 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+      // // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      // emit('wrapme', {src: 'tsting123' })
+      
+      // console.log(iDrag.value?.parentNode?.parentNode)
+      // const tDiv = document.createElement('div')
+      // tDiv.classList.add('foitclass')
+      // if (iDrag.value?.parentNode?.parentNode) {
+      //   const pEl = iDrag.value.parentNode.parentNode as HTMLElement
+      //   pEl.insertAdjacentElement('beforebegin',tDiv)
+      //   // pEl.insertBefore(tDiv, iDrag.value.parentNode)
+      // }
+      // const getCur = e.currentTarget as HTMLElement
+      // const tel = document.createElement('a')
+      // tel.href = '#frig'
+      // if(getCur.parentElement?.parentElement) {
+      //   const xcv = getCur.parentElement?.parentElement
+      //   console.log('line 239$$$$$$$$$$$$$$$$$$$$')
+      //   console.log(xcv)
+      //   xcv.insertAdjacentElement('beforebegin',tel)
+      //   //getCur.parentElement.parentElement.insertAdjacentElement('beforebegin',tel)
+      // }
+      
+      // // console.log(getCur?.parentElement?.parentElement?.parentElement?.tagName)
+      // // console.log(getCur?.parentElement?.parentElement?.parentElement?.attributes)
+      // if (getCur?.parentElement?.parentElement?.parentElement?.tagName.toUpperCase() == 'A') {
+      //   // create wrapper container
+      //   console.log('I AM AN ANCHOR!')
+      //   console.log(getCur)
+      //   console.log(getCur.parentElement.parentElement)
+      //   console.log(getCur.parentElement.parentElement.parentElement)
+	      
+      // } else {
+      //   // console.log(getCur?.parentElement?.parentElement)
+      //   const anchor = document.createElement('a');
+      //   anchor.href = 'https://www.cnn.com'
+      //   anchor.target = '_blank'
+
+      //   console.log(anchor)
+      //   console.log(getCur)
+      //   if (getCur.parentElement?.parentElement?.parentElement) {
+      //     console.log(getCur.parentElement.parentElement)
+      //     console.log(getCur.parentElement.parentElement.parentElement)
+      //   }
+        
+      //   if (getCur?.parentElement?.parentElement?.parentElement?.parentElement) {
+      //     console.log('line 257')
+      //     console.log(getCur.parentElement.parentElement.parentElement.parentElement)
+      //     console.log(getCur.parentElement.parentElement.parentElement)
+      //     console.log(getCur.parentElement.parentElement)
+      //     console.log(getCur.parentElement)
+      //     console.log('line 262')
+      //     console.log(getCur.parentElement.parentElement.outerHTML)
+      //     anchor.innerHTML = getCur.parentElement.parentElement.outerHTML
+      //     // getCur.parentElement.parentElement.parentElement.insertBefore(anchor, getCur.parentElement.parentElement)
+      //     // anchor.appendChild(getCur.parentElement.parentElement)
+      //     console.log('line 264')
+      //     console.log(anchor)
+      //     console.log(anchor.innerHTML)
+      //   }
+      // }
       e.stopPropagation()
       iHandle.value?.classList.add('iHandleShow')
       iWrapper.value?.classList.add('iSpanBorder')
@@ -432,6 +527,7 @@ export default defineComponent({
     const testbtn = () => {
       console.log(iMain?.value?.style.border)
       console.log(props.node?.attrs.style)
+      emit('wrapme', {test:'123'})
     }
     return { tbtn, testexternal, testbtn, tbtnx, iStyle, iMain, iHandle, imageSrc, iWrapper, iSettings, iDrag, iClick, iStop, beginResize, showSettings,
       sliders,
@@ -485,7 +581,8 @@ export default defineComponent({
       imageSelection,
       outAttributes,
       updateImage,
-      mainWrapper
+      mainWrapper,
+      vueWrapper
       }
   },
   methods: {

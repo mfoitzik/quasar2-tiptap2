@@ -1,8 +1,8 @@
 <template>
   <div class="row editor-wrapper">
-    <!--<button type="button" @click="testbtn">test content</button>-->
+    <button type="button" @click="testbtn">test content</button>
     <menu-bar class="editor-menu" />
-    <editor-content :editor="editor" />
+    <editor-content :editor="editor" @wrapme="twrap" />
   </div>
   
 </template>
@@ -62,10 +62,10 @@ export default defineComponent({
         FontColor,
         FontBackgroundColor,
         Gapcursor,
-        Image,
         Dropcursor,
         Underline,
         VueComponent,
+        Image,
         testComponent
       ],
       autofocus: true,
@@ -125,7 +125,9 @@ export default defineComponent({
         }
       },
     })
-
+    const twrap = () => {
+      console.log('WRAPME TRIGGERED')
+    }
     const fontFamilyOptions = ref<SelectItem[]>(fontFamilies)
     const fontFamily = ref<SelectItem>({} as SelectItem)
     const fontSize = ref<SelectItem>({} as SelectItem)
@@ -146,7 +148,10 @@ export default defineComponent({
     }
 
     const testbtn = () => {
-      console.log(editor.value?.schema)
+      // console.log(editor.value?.schema)
+      // console.log(editor.value?.view.state.selection.content())
+      // console.log(editor.value?.commands.setLink({href: '#123'}))
+      console.log('test')
     }
    
     provide(InjectionKeys.editorKey, editor)
@@ -159,7 +164,7 @@ export default defineComponent({
     provide(InjectionKeys.imageSelectionsKey, imageSelections)
     provide('fontColor', fontColor)
     provide('fontHighlight', fontHighlight)
-    return { testbtn, editor, getContent, setContent, setImageSelections, fontFamilyOptions, fontFamily, fontSize, fontSizeOptions, blockType, blockTypeOptions, fontColor, fontHighlight, imageSelections }
+    return { twrap, testbtn, editor, getContent, setContent, setImageSelections, fontFamilyOptions, fontFamily, fontSize, fontSizeOptions, blockType, blockTypeOptions, fontColor, fontHighlight, imageSelections }
   },
   methods: {
     getMoreContent() {
