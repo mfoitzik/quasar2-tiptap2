@@ -18,7 +18,8 @@ import TextAlign from '@tiptap/extension-text-align'
 import TextStyle from '@tiptap/extension-text-style'
 import FontFamily from '@tiptap/extension-font-family'
 import Highlight from '@tiptap/extension-highlight'
-import Link from '@tiptap/extension-link'
+// import Link from '@tiptap/extension-link'
+import Link from './CustomExtensions/link'
 import FontSize from './CustomExtensions/font-size'
 import FontColor from './CustomExtensions/font-color'
 import FontBackgroundColor from './CustomExtensions/font-background-color'
@@ -43,6 +44,7 @@ export default defineComponent({
     EditorContent, MenuBar
   },
   setup() {
+    
     const editor = useEditor({
       content: initialContent,
       extensions: [
@@ -57,6 +59,7 @@ export default defineComponent({
         TextStyle,
         FontFamily,
         Highlight.configure({ multicolor: true }),
+        // , HTMLAttributes: {rel: undefined}
         Link.configure({openOnClick: false}),
         FontSize,
         FontColor,

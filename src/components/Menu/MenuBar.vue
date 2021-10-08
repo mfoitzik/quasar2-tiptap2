@@ -300,6 +300,15 @@
             </div>
             
           </div>
+          <div class="row">
+              <div class="col-12">
+                  <q-input v-model="linkRel" label="rel"
+                    dense
+                    clearable
+                    class="q-mx-sm" />
+              </div>
+              
+          </div>
         </q-card-section>
         <q-card-actions align="right">
                 <q-btn flat label="Cancel" color="primary" v-close-popup />
@@ -337,6 +346,7 @@ export default defineComponent({
     const imageSelector = ref(false)
     const linkProperties = ref(false)
     const linkHref = ref('')
+    const linkRel = ref('')
     const linkTarget = ref('_self')
     const linkTargetSelections = [
         '_self', '_blank', '_parent', '_top'
@@ -356,6 +366,11 @@ export default defineComponent({
             linkTarget.value = getCurrent.target as string
         } else {
             linkTarget.value = ''
+        }
+        if (getCurrent.rel) {
+            linkRel.value = getCurrent.rel as string
+        } else {
+            linkRel.value = ''
         }
         linkProperties.value = true
         // const url = window.prompt('URL')
@@ -377,7 +392,11 @@ export default defineComponent({
             editor.value?.commands.unsetLink()
         } else {
             // need to figure out how to extend setLink command to add id to parameter: , id: linkId.value
-            editor.value?.chain().focus().extendMarkRange('link').setLink({ href: linkHref.value, target: linkTarget.value }).run()
+            if (linkRel.value != '') {
+                editor.value?.chain().focus().extendMarkRange('link').setLink({ href: linkHref.value, target: linkTarget.value, rel: linkRel.value }).run()
+            } else {
+                editor.value?.chain().focus().extendMarkRange('link').setLink({ href: linkHref.value, target: linkTarget.value, rel: undefined }).run()
+            }
         }
         linkProperties.value = false
     }
@@ -501,6 +520,7 @@ export default defineComponent({
         iDialog,
         linkProperties,
         linkHref, 
+        linkRel,
         linkTarget, 
         linkTargetSelections,
         updateLink
