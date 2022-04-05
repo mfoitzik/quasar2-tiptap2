@@ -10,7 +10,7 @@
       <div class="iHandle" ref="iHandle" @mousedown="beginResize"></div>
       <div class="iSpan" ref="iWrapper"><img @mousedown = "iStop" @click="iClick" :src="imageSrc" :style="iStyle" :alt="iAlt" :href="iHref" ref="iMain" draggable="true" @dragstart="testdrag" /></div>
       <div><image-dialog ref="iDialog" @imagechanged="updateImage" :pattributes="outAttributes" /></div>
-      <button @click="testbtn" type="button">test</button>
+      <!--<button @click="testbtn" type="button">test</button>-->
   </node-view-wrapper>
 </template>
 
@@ -95,8 +95,8 @@ export default defineComponent({
     let startX:number, startY:number, startWidth:number, startHeight:number, heightRatio:number, isShift = false
 
     const updateImage = (e) => {
-      console.log('CHANGED EVENT LINE 86!!!!!!!!!!!!!!!!!!!!!!!!!')
-      console.log(e)
+      // console.log('CHANGED EVENT LINE 86!!!!!!!!!!!!!!!!!!!!!!!!!')
+      // console.log(e)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
@@ -129,15 +129,15 @@ export default defineComponent({
     
     const tbtn = () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      console.log('TEST TEST 312')
+      // console.log('TEST TEST 312')
       // console.log(this.node.attrs)
     }
     const updateStyle = () => {
-      console.log('border:' + imageBorderWidth.value + ' ' + imageBorderStyle.value + ' ' + imageBorderColor.value)
+      // console.log('border:' + imageBorderWidth.value + ' ' + imageBorderStyle.value + ' ' + imageBorderColor.value)
       iStyle.value='border:' + imageBorderWidth.value + ' ' + imageBorderStyle.value + ' ' + imageBorderColor.value
     }
     const setBorderStyle = () => {
-      console.log(iStyle.value)
+      // console.log(iStyle.value)
       iStyle.value='width:1000px'
     }
 
@@ -169,7 +169,7 @@ export default defineComponent({
     const beginResize = (e: MouseEvent) => {
       e.stopPropagation()
       e.preventDefault()
-      console.log('resize begin: ' + isShift.toString())
+      // console.log('resize begin: ' + isShift.toString())
       const dView = document.defaultView as Window
       
       startX = e.clientX
@@ -187,15 +187,15 @@ export default defineComponent({
     }
 
     const setKey = (e: KeyboardEvent) => {
-      console.log('key own')
+      // console.log('key own')
       if (e.shiftKey) {
         isShift = true
       }
     }
 
     const unsetKey = (e: KeyboardEvent) => {
-      console.log('KEY UP')
-      console.log(e)
+      // console.log('KEY UP')
+      // console.log(e)
       if (e.key.toUpperCase() == 'SHIFT') {
         isShift = false
       }
@@ -367,9 +367,9 @@ export default defineComponent({
       const cleanedInput = inCss.replace(/, /g,',').split(' ')
       const outObject = {color: '', hOffset: '', vOffset: '', blur: '', spread: ''} as parsedBoxShadow
       
-      console.log('LINE 226')
-      console.log(cleanedInput.length)
-      console.log(outObject)
+      // console.log('LINE 226')
+      // console.log(cleanedInput.length)
+      // console.log(outObject)
       if (cleanedInput.length > 0) {
         for (let i = 0; i < cleanedInput.length; i++) {
           // ignore inset - does not work on iomage element
@@ -397,8 +397,8 @@ export default defineComponent({
       // sliders.value = true
       const outObj = new ImageAttributes
       if (iMain.value) {
-        console.log('LINE 277%%%%%%%%%%%%%%%%%')
-        console.log(iMain.value.style.float)
+        // console.log('LINE 277%%%%%%%%%%%%%%%%%')
+        // console.log(iMain.value.style.float)
         if (iMain.value.style.float == 'left' || iMain.value.style.float == 'right') {
           outObj.float = iMain.value.style.float
         } else {
@@ -411,21 +411,21 @@ export default defineComponent({
         outObj.widthUom = iMain.value.style.width.replace(/[0-9.\-]/g,'')
         outObj.height = (isNaN(parseFloat(iMain.value.style.height))) ? '' : parseFloat(iMain.value.style.height).toString()
         outObj.heightUom = iMain.value.style.height.replace(/[0-9.\-]/g,'')
-        console.log('LINE 312*****: ' + iMain.value.style.borderStyle)
+        // console.log('LINE 312*****: ' + iMain.value.style.borderStyle)
         outObj.borderStyle = iMain.value.style.borderStyle
         outObj.borderColor = iMain.value.style.borderColor
-        console.log('LINE 315++++++++++++++: ' + iMain.value.style.borderWidth + '++++++: ' + iMain.value.style.borderColor)
+        // console.log('LINE 315++++++++++++++: ' + iMain.value.style.borderWidth + '++++++: ' + iMain.value.style.borderColor)
         outObj.borderWidth = (isNaN(parseFloat(iMain.value.style.borderWidth))) ? '' : parseFloat(iMain.value.style.borderWidth).toString()
         outObj.borderWidthUom = iMain.value.style.borderWidth.replace(/[0-9.\-]/g,'')
         outObj.borderRadius = (isNaN(parseFloat(iMain.value.style.borderRadius))) ? '' : parseFloat(iMain.value.style.borderRadius).toString()
         outObj.margin = (isNaN(parseFloat(iMain.value.style.margin))) ? '' : parseFloat(iMain.value.style.margin).toString()
         outObj.marginUom = iMain.value.style.margin.replace(/[0-9.\-]/g,'')
-        console.log('LINE268!!!!!')
-        console.log(parseFloat(getShadowComponents.hOffset))
+        // console.log('LINE268!!!!!')
+        // console.log(parseFloat(getShadowComponents.hOffset))
         outObj.borderRadiusUom = iMain.value.style.borderRadius.replace(/[0-9.\-]/g,'')
         if (getShadowComponents.hOffset != '') {
-          console.log('LINE 272!')
-          console.log(getShadowComponents)
+          // console.log('LINE 272!')
+          // console.log(getShadowComponents)
           outObj.shadow = 'yes'
           outObj.shadowColor = getShadowComponents.color
           outObj.hOffset = (isNaN(parseFloat(getShadowComponents.hOffset))) ? '' : parseFloat(getShadowComponents.hOffset).toString()
@@ -438,15 +438,15 @@ export default defineComponent({
           outObj.spreadUom = getShadowComponents.spread.replace(/[0-9.\-]/g,'')
         }
       }
-      console.log('LINE282!')
-      console.log(outObj)
+      // console.log('LINE282!')
+      // console.log(outObj)
       outObj.mode = 'edit'
       if (iDialog.value){
         for (let k in outObj) {
           outAttributes.value[k] = (outObj[k] as string).replace('medium', '').replace('initial', '').replace('currentcolor', '')
         }
-        console.log('LINE343================================')
-        console.log(outAttributes)
+        // console.log('LINE343================================')
+        // console.log(outAttributes)
         iDialog.value.showDialog()
       }
 
@@ -465,7 +465,7 @@ export default defineComponent({
       iHref.value = props?.node?.attrs.href
       
       // console.log('I AM GOING TO SET STYLE')
-      console.log(props?.node?.attrs.style)
+      // console.log(props?.node?.attrs.style)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       iStyle.value = props?.node?.attrs.style
       const getStyleProps = props?.node?.attrs.style as string
@@ -517,7 +517,7 @@ export default defineComponent({
       
     })
     const testdrag = () => {
-      console.log('TEST DRAG STARTED!')
+      // console.log('TEST DRAG STARTED!')
     }
 
     const testexternal = () => {
@@ -525,8 +525,8 @@ export default defineComponent({
     }
 
     const testbtn = () => {
-      console.log(iMain?.value?.style.border)
-      console.log(props.node?.attrs.style)
+      // console.log(iMain?.value?.style.border)
+      // console.log(props.node?.attrs.style)
       emit('wrapme', {test:'123'})
     }
     return { tbtn, testexternal, testbtn, tbtnx, iStyle, iMain, iHandle, imageSrc, iWrapper, iSettings, iDrag, iClick, iStop, beginResize, showSettings,
@@ -589,7 +589,7 @@ export default defineComponent({
     
     tbtny() {
       if (this.node) {
-        console.log(this.node.attrs.mike)
+        // console.log(this.node.attrs.mike)
       }
       
     }

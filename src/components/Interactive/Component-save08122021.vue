@@ -20,7 +20,7 @@ export default defineComponent({
   setup() {
     const tbtn = () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      console.log(this.node.attrs)
+      // console.log(this.node.attrs)
     }
 
     return { tbtn}
@@ -30,7 +30,7 @@ export default defineComponent({
       this.updateAttributes({mike: '123'})
     },
     tbtny() {
-      console.log(this.node.attrs.mike)
+      // console.log(this.node.attrs.mike)
     }
   },
   props: nodeViewProps,

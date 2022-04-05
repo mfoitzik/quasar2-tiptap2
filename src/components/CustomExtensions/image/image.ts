@@ -16,7 +16,7 @@ declare module '@tiptap/core' {
       /**
        * Add an image
        */
-      setImage: (options: { src: string, alt?: string, title?: string, style?: string, href?: string }) => ReturnType,
+      setImage: (options: { src: string, alt?: string, title?: string, style?: string }) => ReturnType,
     }
   }
 }
@@ -55,9 +55,6 @@ export const Image = Node.create<ImageOptions>({
       style: {
         default: null,
       },
-      href: {
-        default: null,
-      },
     }
   },
 
@@ -88,10 +85,10 @@ export const Image = Node.create<ImageOptions>({
     return [
       nodeInputRule(inputRegex, this.type, match => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const [, alt, src, title, style, href] = match
+        const [, alt, src, title, style] = match
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        return { src, alt, title, style, href }
+        return { src, alt, title, style }
       }),
     ]
   },

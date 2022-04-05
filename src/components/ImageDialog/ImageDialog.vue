@@ -1,7 +1,7 @@
 <template>
   <div>
-    <q-dialog v-model="sliders" style="width: 1200px;max-width:1200px;">
-      <q-card style="width: 1200px;max-width:1200px;" class="q-px-sm q-pb-md">
+    <q-dialog v-model="sliders" style="width: 700px;max-width:1200px;">
+      <q-card style="width: 700px;max-width:1200px;" class="q-px-sm q-pb-md">
         <q-card-section class="row items-center q-pb-none">
           <div class="text-h6">Image Properties</div>
           <q-space />
@@ -42,7 +42,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-3">
               <q-input
                 v-model="imageWidth"
                 label="width"
@@ -53,7 +53,7 @@
                 class="q-mx-sm"
               />
             </div>
-            <div class="col-xs-1">
+            <div class="col-xs-2">
               <q-select 
               v-model="imageWidthUom" 
               :options="imageWidthUomOptions" 
@@ -100,7 +100,7 @@
                 </span>--><q-icon name="mdi-link-off" size="sm" />
               </div>
             </div>
-            <div class="col-xs-4">
+            <div class="col-xs-3">
               <q-input
                 v-model="imageHeight"
                 label="height"
@@ -111,7 +111,7 @@
                 class="q-mx-sm"
               />
             </div>
-            <div class="col-xs-1">
+            <div class="col-xs-2">
               <q-select 
               v-model="imageHeightUom" 
               :options="imageHeightUomOptions" 
@@ -123,7 +123,7 @@
           </div>
         </q-card-section>
         <div class="row">
-          <div class="col-3">
+          <div class="col-4">
           <q-item-label header>Float</q-item-label>
           <q-item dense>
             <q-item-section>
@@ -144,7 +144,7 @@
             </q-item-section>
           </q-item>
         </div>
-        <div class="col-9">
+        <div class="col-8">
           <q-item-label header>Margin</q-item-label>
           <q-item dense>
             <q-item-section>
@@ -158,7 +158,7 @@
                   class="q-mx-sm"
                 />
               </div>
-              <div class="col-2">
+              <div class="col-3">
                 <q-select
                   v-model="imageMarginUom"
                   :options="imageUOMSelections"
@@ -168,7 +168,7 @@
                   class="q-mx-sm"
                 />
               </div>
-              <div class="col-7 q-pt-lg">
+              <div class="col-6 q-pt-lg">
                 <q-slider
                   color="teal"
                   v-model="imageMarginNumber"
@@ -645,8 +645,8 @@ export default defineComponent({
       getImageDimensions(value)
     }
     const imageBorderColorChange = (value: string) => {
-      console.log('LINE572@@@@@@@@@@@@@@@@@')
-      console.log(value)
+      // console.log('LINE572@@@@@@@@@@@@@@@@@')
+      // console.log(value)
       imageBorderColor.value = value
       borderBottomStyle.value = 'border-bottom: 4px solid ' + value + ';'
       // emit('newBorderColor', value)
@@ -701,8 +701,8 @@ export default defineComponent({
       sliders.value = true
     }
     const imageSelect = (divId: string, inIndex: number) => {
-      console.log('DIVID:' + divId)
-      console.log('INDEX:' + inIndex.toString())
+      // console.log('DIVID:' + divId)
+      // console.log('INDEX:' + inIndex.toString())
       const allImages = document.getElementsByClassName('image-selection')
       for(var index=0;index < allImages.length;index++){
       allImages[index].classList.remove('selected');
@@ -949,8 +949,8 @@ export default defineComponent({
     }
     const showDialog = () => {
         if (props.pattributes) {
-          console.log('LINE 836!!!!!!!!!!!!!!!!!!!!!!!!')
-          console.log(props.pattributes)
+          // console.log('LINE 836!!!!!!!!!!!!!!!!!!!!!!!!')
+          // console.log(props.pattributes)
           const inAttributes = props.pattributes as iImageAttributes
           if (props.pattributes.mode == 'edit') {
             if (inAttributes.float == 'left') {

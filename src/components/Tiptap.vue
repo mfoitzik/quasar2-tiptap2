@@ -1,6 +1,6 @@
 <template>
   <div class="row editor-wrapper">
-    <button type="button" @click="testbtn">test content</button>
+    <!--<button type="button" @click="testbtn">test content</button>{{showEditor}}-->
     <menu-bar class="editor-menu" />
     <editor-content :editor="editor" @wrapme="twrap" />
   </div>
@@ -46,7 +46,8 @@ export default defineComponent({
   setup() {
     
     const editor = useEditor({
-      content: initialContent,
+      // content: initialContent,
+      content: '',
       extensions: [
         StarterKit,
         Document,
@@ -72,6 +73,7 @@ export default defineComponent({
         testComponent
       ],
       autofocus: true,
+      
       onSelectionUpdate({ editor }) {
         fontFamily.value = fontFamilyOptions.value[0]
         fontFamilyOptions.value.forEach(element => {
@@ -129,8 +131,9 @@ export default defineComponent({
       },
     })
     const twrap = () => {
-      console.log('WRAPME TRIGGERED')
+      // console.log('WRAPME TRIGGERED')
     }
+    const showEditor = ref(false)
     const fontFamilyOptions = ref<SelectItem[]>(fontFamilies)
     const fontFamily = ref<SelectItem>({} as SelectItem)
     const fontSize = ref<SelectItem>({} as SelectItem)
@@ -147,6 +150,7 @@ export default defineComponent({
         editor?.value?.commands.setContent(val)
     }
     const setImageSelections = (val: imageItem[]) => {
+        
         imageSelections.value = val
     }
 
@@ -154,7 +158,7 @@ export default defineComponent({
       // console.log(editor.value?.schema)
       // console.log(editor.value?.view.state.selection.content())
       // console.log(editor.value?.commands.setLink({href: '#123'}))
-      console.log('test')
+      // console.log('test')
     }
    
     provide(InjectionKeys.editorKey, editor)
@@ -167,7 +171,7 @@ export default defineComponent({
     provide(InjectionKeys.imageSelectionsKey, imageSelections)
     provide('fontColor', fontColor)
     provide('fontHighlight', fontHighlight)
-    return { twrap, testbtn, editor, getContent, setContent, setImageSelections, fontFamilyOptions, fontFamily, fontSize, fontSizeOptions, blockType, blockTypeOptions, fontColor, fontHighlight, imageSelections }
+    return { showEditor, twrap, testbtn, editor, getContent, setContent, setImageSelections, fontFamilyOptions, fontFamily, fontSize, fontSizeOptions, blockType, blockTypeOptions, fontColor, fontHighlight, imageSelections }
   },
   methods: {
     getMoreContent() {

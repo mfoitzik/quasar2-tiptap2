@@ -1,5 +1,5 @@
 <template>
-    <q-toolbar v-if="editor" class="toolbar-border q-pa-xs wrap">
+    <q-toolbar v-if="editor" class="toolbar-border q-pa-xs" style="flex-wrap: wrap;">
         <q-btn flat padding="xs" icon="undo" @click="editor.chain().focus().undo().run()" >
             <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div class="tooltip-wrapper">
@@ -387,22 +387,25 @@ export default defineComponent({
         }
     }
     const updateLink = () => {
-        // console.log('test')
+        // console.log('I AM UPDATING LINK')
         if (linkHref.value == '') {
             editor.value?.commands.unsetLink()
         } else {
-            // need to figure out how to extend setLink command to add id to parameter: , id: linkId.value
             if (linkRel.value != '') {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
                 editor.value?.chain().focus().extendMarkRange('link').setLink({ href: linkHref.value, target: linkTarget.value, rel: linkRel.value }).run()
             } else {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
                 editor.value?.chain().focus().extendMarkRange('link').setLink({ href: linkHref.value, target: linkTarget.value, rel: undefined }).run()
             }
         }
         linkProperties.value = false
     }
-    const testEmit = (e) => {
+    const testEmit = () => {
         // console.log('EVENT EMITTED: ' + e)
-        console.log(e)
+        // console.log(e)
     }
     const changeFontFamily = (value: string) => {
         editor.value.chain().focus().setFontFamily(value).run()
@@ -440,7 +443,7 @@ export default defineComponent({
     }
 
     const addImage = () => {
-    console.log('SET IMAGE SELECTOR TRUEXXX')
+    // console.log('SET IMAGE SELECTOR TRUEXXX')
     // imageSelector.value = true
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     

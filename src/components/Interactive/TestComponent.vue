@@ -11,10 +11,10 @@ export default defineComponent({
   components: {
     NodeViewWrapper
   },
-  setup(props) {
+  setup() {
       const tclick = () => {
-          console.log('test')
-          console.log(props.extension?.parent)
+          // console.log('test')
+          // console.log(props.extension?.parent)
           // emit('tstemit', 'test')
       }
       return {

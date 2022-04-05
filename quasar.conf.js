@@ -54,7 +54,7 @@ module.exports = configure(function (ctx) {
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       //publicPath: '/quasar2tiptap2',
-      // publicPath: 'build/assets/Editor',
+      publicPath: 'build/assets/Editor',
       // transpile: false,
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
