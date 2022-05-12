@@ -1,8 +1,8 @@
 <template>
-  <div class="row editor-wrapper">
+  <div class="row editor-wrapper" style="border:2px solid blue;display:flex;flex-direction:column;">
     <!--<button type="button" @click="testbtn">test content</button>{{showEditor}}-->
     <menu-bar class="editor-menu" />
-    <editor-content :editor="editor" @wrapme="twrap" />
+    <editor-content :editor="editor" @wrapme="twrap" style="border:2px solid red;flex:1;display:flex;overflow:hidden;" />
   </div>
   
 </template>

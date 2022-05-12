@@ -2,6 +2,23 @@
   <q-page class="">
     <!--<button type="button" @click="consolehtml">TEST</button><button type="button" @click="testset">TESTSET</button><button type="button" @click="testimageset">TESTIMAGES</button><button type="button" @click="testparse">TESTPARSE</button>-->
     <tip-tap v-if="showEditor == true" ref="maineditor" />
+    <q-footer class="column inline items-center no-wrap bg-grey-2 text-white">
+      <div>
+        <q-btn
+          color="primary"
+          @click="cancelbtn"
+          label="Cancel"
+          class="q-ma-sm"
+          size="sm"
+        /><q-btn
+          color="primary"
+          size="sm"
+          label="OK"
+          class="q-ma-sm"
+          @click="okbtn"
+        />
+      </div>
+    </q-footer>
   </q-page>
 </template>
 
@@ -22,6 +39,25 @@ export default defineComponent({
     const maineditor =  ref<typeof tipTap>()
     const showEditor = ref(false)
     const route = useRoute()
+    const okbtn = () => {
+      window.parent.postMessage(
+        {
+          command: "setAttributes",
+          content: '',
+        },
+        "*"
+      );
+
+    };
+    const cancelbtn = () => {
+      window.parent.postMessage(
+        {
+          command: "cancelAttributes",
+          content: '',
+        },
+        "*"
+      );
+    };
     const consolehtml = () => {
       if (maineditor.value) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
@@ -102,7 +138,7 @@ export default defineComponent({
           }
         }, false);
       })
-      return { maineditor, consolehtml, testset, testimageset, testparse, showEditor }
+      return { maineditor, cancelbtn, consolehtml, okbtn, testset, testimageset, testparse, showEditor }
   }
 
 });

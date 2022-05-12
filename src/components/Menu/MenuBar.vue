@@ -1,5 +1,5 @@
 <template>
-    <q-toolbar v-if="editor" class="toolbar-border q-pa-xs" style="flex-wrap: wrap;">
+    <q-toolbar v-if="editor" class="toolbar-border q-pa-xs" style="flex-wrap: wrap;height:fit-content;display:flex;">
         <q-btn flat padding="xs" icon="undo" @click="editor.chain().focus().undo().run()" >
             <q-tooltip class="menu-button-tooltip" transition-duration=0>
             <div class="tooltip-wrapper">
