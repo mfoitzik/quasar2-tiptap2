@@ -42,20 +42,20 @@ export default defineComponent({
     const okbtn = () => {
       window.parent.postMessage(
         {
-          command: "setAttributes",
+          command: 'editorOk',
           content: '',
         },
-        "*"
+        '*'
       );
 
     };
     const cancelbtn = () => {
       window.parent.postMessage(
         {
-          command: "cancelAttributes",
+          command: 'editorCancel',
           content: '',
         },
-        "*"
+        '*'
       );
     };
     const consolehtml = () => {
