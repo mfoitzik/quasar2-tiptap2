@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Extension } from '@tiptap/core'
 import '@tiptap/extension-text-style'
 
@@ -35,13 +37,27 @@ export const FontColor = Extension.create<FontColorOptions>({
           fontColor: {
             default: null,
             renderHTML: attributes => {
-              if (!attributes.fontColor) {
+              if (!attributes.fontColor || attributes.fontColor.fontColor == '') {
                 return {}
               }
-
-              return {
-                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                style: `color: ${attributes.fontColor}`,
+              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+              if(attributes.fontColor.fontColor) {
+                return {
+                  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                  style: `color: ${attributes.fontColor.fontColor}`,
+                }
+              } else {
+                return {
+                  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                  style: `color: ${attributes.fontColor}`,
+                }
               }
             },
             parseHTML: element => ({

@@ -1,6 +1,6 @@
 const initialContent  = `
 <div class="tpara">xThis project basically implements<img src="https://www.mifo.com/images/Training.jpg" alt="My Alt Text" style="width:200px;border:4px solid green;"></img> the basic examples that are on the TipTap site at [<a href="https://www.tiptap.dev/examples/default">https://www.tiptap.dev/examples/default</a>] within a Quasar Framework project.</div>
-<p>I have added a few custom extensions to provide the capability of Font Color, Font Size and Font Background Color. Additionally, I added an interactive node for image property management.</p>
+<p>I have added a few custom extensions to provide the capability of Font Color, Font Size and Font Background Color. Additionally, I added an interactive node for <span style="font-size: 20px">image</span> property <span style="color: #ff0000ff">management</span>.</p>
 <p>This is just meant to be a starter.</p>
 <h4>IMPORTANT DISCLAIMER</h4>
 <p>To get this to work I had to add a resolutions property to the package.json file telling it to use vue 3.1.4. Because of this I believe you need to use yarn instead of npm to install the dependencies (I do not think that npm looks at the resolutions property). Without adding this the editor was not displaying.</p>

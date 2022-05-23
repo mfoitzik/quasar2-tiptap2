@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { Extension } from '@tiptap/core'
 import '@tiptap/extension-text-style'
 
@@ -35,14 +37,27 @@ export const FontSize = Extension.create<FontSizeOptions>({
           fontSize: {
             default: null,
             renderHTML: attributes => {
-              if (!attributes.fontSize) {
+              if (!attributes.fontSize || attributes.fontSize.fontSize == '') {
                 return {}
               }
-
-              return {
-                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                style: `font-size: ${attributes.fontSize}`,
+              if(attributes.fontSize.fontSize) {
+                return {
+                  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                  style: `font-size: ${attributes.fontSize.fontSize}`,
+                }
+              } else {
+                return {
+                  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                  style: `font-size: ${attributes.fontSize}`,
+                }
               }
+              
             },
             parseHTML: element => ({
               fontSize: element.style.fontSize.replace(/['"]+/g, ''),

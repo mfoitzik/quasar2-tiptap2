@@ -47,7 +47,7 @@ export default defineComponent({
     
     const editor = useEditor({
       // content: initialContent,
-      content: '',
+      content: initialContent,
       extensions: [
         StarterKit,
         Document,

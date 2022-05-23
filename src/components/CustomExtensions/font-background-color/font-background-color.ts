@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { Extension } from '@tiptap/core'
 import '@tiptap/extension-text-style'
 
@@ -35,13 +37,25 @@ export const FontBackgroundColor = Extension.create<FontBackgroundColorOptions>(
           fontBackgroundColor: {
             default: null,
             renderHTML: attributes => {
-              if (!attributes.fontBackgroundColor) {
+              if (!attributes.fontBackgroundColor || attributes.fontBackgroundColor.fontBackgroundColor == '') {
                 return {}
               }
-
-              return {
-                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                style: `background-color: ${attributes.fontBackgroundColor}`,
+              if(attributes.fontBackgroundColor.fontBackgroundColor) {
+                return {
+                  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                  style: `background-color: ${attributes.fontBackgroundColor.fontBackgroundColor}`,
+                }
+              } else {
+                return {
+                  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                  style: `background-color: ${attributes.fontBackgroundColor}`,
+                }
               }
             },
             parseHTML: element => ({
